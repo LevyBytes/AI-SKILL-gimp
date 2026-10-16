@@ -15,14 +15,14 @@ Example: press  N  for Pencil, set its options, then draw.
 
 ## Tool categories
 
-The manual groups tools into five categories: **Selection tools**, **Paint tools**, **Transform tools**, **Color tools**, and **Other tools**. Color tools are covered in `colors-and-adjustments.md`; the rest are cataloged below. Shortcuts marked TODO were not confirmed on the fetched pages — assign them via **Edit > Keyboard Shortcuts**.
+The manual groups tools into five categories: **Selection tools**, **Paint tools**, **Transform tools**, **Color tools**, and **Other tools**. Color tools are covered in [colors and adjustments](colors-and-adjustments.md); the rest are cataloged below. These defaults are documented in the [GIMP tool key reference](https://docs.gimp.org/3.0/en/key-reference-tools.html). Check **Edit > Keyboard Shortcuts** for custom bindings.
 
 ## Selection tools (Tools > Selection Tools)
 
 - **Rectangle Select** `R` · **Ellipse Select** `E` · **Free Select** (the Lasso) `F`
-- **Fuzzy Select** (Magic wand) `U` · **By Color Select** `Shift+O` · **Foreground Select** (no default) · **Scissors Select** (TODO)
+- **Fuzzy Select** (Magic wand) `U` · **By Color Select** `Shift+O` · **Foreground Select** (no default) · **Scissors Select** `I`
 
-See `selections.md` for behavior and modes.
+See [selections](selections.md) for behavior and modes.
 
 ## Paint tools (Tools > Paint Tools)
 
@@ -34,21 +34,21 @@ See `selections.md` for behavior and modes.
 
 - **Align and Distribute** `Q` · **Move** `M` · **Crop** `Shift+C`
 - **Rotate** `Shift+R` · **Scale** `Shift+S` · **Shear** `Shift+H` · **Perspective** `Shift+P` · **Flip** `Shift+F`
-- **Unified Transform**, **Handle Transform**, **Cage Transform**, **Warp Transform**, **3D Transform** (shortcuts TODO)
+- **Unified Transform** `Shift+T` · **Handle Transform** `Shift+L` · **Cage Transform** `Shift+G` · **Warp Transform** `W` · **3D Transform** `Shift+W`
 
 ## Other tools
 
-- **Paths** `B` (**Tools > Paths**) — see `paths.md`
+- **Paths** `B` (**Tools > Paths**) — see [paths](paths.md)
 - **Text** `T` (**Tools > Text**) — adds text in a new layer, editable on canvas
-- **Color Picker** `O` · **Measure** (no default) · **Zoom** (no default) · **GEGL Operation** (TODO)
+- **Color Picker** `O` · **Measure** `Shift+M` · **Zoom** `Z` · **GEGL Operation** through **Tools > GEGL Operation**
 
 ## Do / Don't
 
 - **Do** use the exact tool name and category as written (e.g. "By Color Select", "Dodge/Burn").
 - **Do** open **Tool Options** alongside the Toolbox before acting; options change outcomes.
-- **Don't** assume a shortcut where one is marked TODO or "no default" — assign it via **Edit > Keyboard Shortcuts**.
+- **Don't** assume a custom installation retains every default binding. Foreground Select has no default shortcut; assign one through **Edit > Keyboard Shortcuts** if needed.
 - **Don't** document per-tool options here; route to the depth files.
 
 ## Related
 
-`interface-and-workflow.md` · `selections.md` · `paths.md` · `colors-and-adjustments.md` · `layers-and-modes.md`
+[interface and workflow](interface-and-workflow.md) · [selections](selections.md) · [paths](paths.md) · [colors and adjustments](colors-and-adjustments.md) · [layers and modes](layers-and-modes.md)

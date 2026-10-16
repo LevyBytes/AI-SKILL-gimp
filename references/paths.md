@@ -52,4 +52,4 @@ Paths interchange as SVG. **Export Paths…** saves a path to a file in SVG form
 
 ## Related
 
-`selections.md` · `masks-and-channels.md` · `tools-overview.md` · `pdb-recipes-selections-paths.md`
+[selections](selections.md) · [masks and channels](masks-and-channels.md) · [tools overview](tools-overview.md) · [pdb recipes selections paths](pdb-recipes-selections-paths.md)

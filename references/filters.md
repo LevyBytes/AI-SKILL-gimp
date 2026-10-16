@@ -6,13 +6,13 @@ How the **Filters** menu is organized and how to reapply the last filter. A filt
 
 ## The Filters menu layout
 
-The **Filters** menu opens with **Filters > Repeat Last** and **Filters > Re-Show Last**, followed by **Filters > Reset All Filters**, then the category submenus. The menu also hosts the scripting entries — a **Development** submenu (home of the Script-Fu Console) plus **Script-Fu** and **Python-Fu** submenus (see `scripting-overview.md`).
+The **Filters** menu opens with **Filters > Repeat Last** and **Filters > Re-Show Last**, followed by **Filters > Reset All Filters**, then the category submenus. The **Development** submenu contains **Script-Fu** and **Python-Fu** console entries when installed (see [scripting overview](scripting-overview.md)).
 
 ## Filter categories
 
 The filter categories, as the manual titles them, are **Blur Filters**, **Enhance Filters**, **Distort Filters**, **Light and Shadow Filters**, **Noise Filters**, **Edge-Detect Filters**, **Generic Filters**, **Combine Filters**, **Artistic Filters**, **Decor Filters**, **Map Filters**, **Rendering Filters**, **Web Filters**, and **Animation Filters**.
 
-Preserve the exact forms: the category headings read **Distort Filters** and **Rendering Filters** (not "Distorts" or "Render"), and **Edge-Detect** and **Light and Shadow** are written exactly so.
+These are documentation chapter titles, not a literal list of submenu labels. Use the actual installed menu label when giving a command path.
 
 ```text
 Filters > Blur > …
@@ -22,7 +22,7 @@ Filters > Edge-Detect > …
 
 ## Repeat Last and Re-Show Last
 
-**Filters > Repeat Last** (**Ctrl+F**) performs the most recently executed plug-in again using the same settings as the previous run. **Filters > Re-Show Last** (**Ctrl+Shift+F**) instead re-opens the dialog of the most recently executed plug-in so the settings can be changed before running.
+**Filters > Repeat Last** (**Ctrl+F**) performs the most recently executed filter again using the same settings as the previous run. **Filters > Re-Show Last** (**Ctrl+Shift+F**) instead re-opens the dialog of the most recently executed filter so the settings can be changed before running.
 
 ```text
 Apply Gaussian Blur once → Ctrl+F repeats it with identical settings
@@ -32,10 +32,10 @@ Apply Gaussian Blur once → Ctrl+F repeats it with identical settings
 ## Do / Don't
 
 - **Do** use **Ctrl+F** to reapply the exact last filter, and **Ctrl+Shift+F** to reapply it with changes.
-- **Do** reach the scripting consoles through the **Filters > Development** submenu (see `scripting-overview.md`).
-- **Don't** rename categories: it is **Distort Filters** and **Rendering Filters**, not "Distorts"/"Render".
+- **Do** reach the scripting consoles through the **Filters > Development** submenu (see [scripting overview](scripting-overview.md)).
+- **Don't** infer a literal menu label from a documentation chapter title.
 - **Don't** assume a filter's specific dialog options from this map; open the filter to read them.
 
 ## Related
 
-`colors-and-adjustments.md` · `scripting-overview.md` · `pdb-recipes-color-filters.md` · `interface-and-workflow.md`
+[colors and adjustments](colors-and-adjustments.md) · [scripting overview](scripting-overview.md) · [pdb recipes color filters](pdb-recipes-color-filters.md) · [interface and workflow](interface-and-workflow.md)

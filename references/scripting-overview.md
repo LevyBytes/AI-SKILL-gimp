@@ -1,53 +1,47 @@
 # Scripting and Plug-ins
 
-GIMP can be driven by code as well as by mouse. This file orients an agent to the two scripting languages, where their consoles live, how add-ons are installed, and how to run GIMP non-interactively.
+Open when choosing a GIMP automation language, installing plug-ins, using consoles, or configuring batch execution.
 
-**When this applies:** Read this first whenever a task involves automating GIMP, writing or installing a script or plug-in, choosing between Script-Fu and Python-Fu, or driving GIMP from a server/MCP.
+## Choose an execution environment
 
-## Plug-ins versus scripts
+GIMP 3.2 uses the GIMP 3.0 plug-in API and typelib names. Script-Fu binds Scheme to the PDB; Python plug-ins use Python 3 and GObject Introspection. Ordinary system Python does not provide a connected GIMP session just by importing `gi`.
 
-A plug-in is an external program that runs under the control of the main GIMP application; everything in the **Filters** menu is a plug-in. Scripts are interpreted programs that GIMP runs through a bundled interpreter rather than as separate compiled binaries. Both reach GIMP's functionality through the same Procedural Database (see `pdb-reference.md`).
+Plug-ins run under GIMP's control. The Filters menu also contains GEGL operations and built-in commands; a menu entry is not proof that a same-named PDB procedure exists. Use **Help > Procedure Browser** for installed procedure signatures and the API documentation for typed methods.
 
-## Script-Fu versus Python-Fu
+For a server or MCP integration, establish which language and GIMP instance the server actually controls. This skill does not bundle an MCP server.
 
-Script-Fu is the built-in scripting layer based on the Scheme language, always available. Python-Fu uses Python 3 through GObject Introspection: a plug-in begins with `import gi`, then `gi.require_version('Gimp', '3.0')` and `from gi.repository import Gimp`, and defines a class inheriting from `Gimp.PlugIn`. Choose Script-Fu for portable, dependency-free automation; Python-Fu when you want Python libraries or richer logic.
+## Interactive consoles
 
-## The consoles
+- **Filters > Development > Script-Fu > Script-Fu Console** evaluates Scheme. It starts in the v2 binding dialect even in GIMP 3; [Script-Fu essentials](script-fu.md) explains the optional v3 dialect.
+- **Filters > Development > Script-Fu > Start Server** starts the Script-Fu server.
+- **Filters > Development > Python-Fu > Python Console** provides namespaces such as `Gimp` and `Gio`. Obtain the PDB with `Gimp.get_pdb()`; GIMP 2's `gimp` and `pdb` console globals are not the 3.x interface.
 
-- Script-Fu: **Filters > Development > Script-Fu > Script-Fu Console** — evaluates Scheme expressions immediately; the fastest way to try a PDB call. A Script-Fu server starts from **Filters > Development > Script-Fu > Start Server**.
-- Python-Fu: **Filters > Development > Python-Fu > Python-Fu Console** — an interactive Python shell pre-loaded with the `gimp` and `pdb` objects.
+The following expression assumes the Script-Fu console's default v2 dialect and returns a new image ID without displaying it:
 
 ```scheme
-(car (gimp-image-new 640 480 RGB))   ; evaluate a PDB call directly in the Script-Fu console
+(car (gimp-image-new 640 480 RGB))
 ```
 
-## Installing scripts and plug-ins
+## Installation
 
-To add a Script-Fu script, copy or move its file into one of GIMP's Scripts folders, whose location is shown under **Preferences: Folders > Scripts**, then restart GIMP. A plug-in goes under GIMP's user `/plug-ins` directory in a folder whose name matches the plug-in's filename; on Linux/Unix this is `~/gimp-3.2/plug-ins`, and there you can also run `gimptool-3.2 --install borker.c`. TODO: literal Scripts path strings and Windows/macOS plug-in paths are not printed in the manual.
+Inspect **Preferences > Folders > Plug-ins** for the installation's actual search paths. Place a Python or standalone Script-Fu plug-in inside a directory matching its filename stem, such as `hello/hello.py` or `hello/hello.scm`. On Unix-like systems make that file executable, then restart GIMP. The interpreter named in its shebang must be available to GIMP.
 
-## Headless and batch invocation
+Standalone Script-Fu uses `gimp-script-fu-interpreter-3.0`, including with GIMP 3.2. Legacy extension scripts instead use **Preferences > Folders > Scripts**. Do not infer a `gimp-3.2` profile path or compiler-tool name from the application's minor version.
 
-Run GIMP non-interactively from the command line:
+## Batch execution
 
-- `-i`, `--no-interface` — run without a user interface.
-- `-b`, `--batch=commands` — execute the commands non-interactively; when the command is `-`, commands are read from standard input.
-- `--batch-interpreter=proc` — the procedure used to process batch commands; the default is Script-Fu.
-- `-d`, `--no-data` and `-f`, `--no-fonts` — skip loading data/fonts for faster startup.
+Choose the installed executable; `gimp-console-3.0` is the console build where provided. On Windows supply its installed executable path using the invoking shell's quoting rules. This POSIX-shell example requires the Script-Fu batch interpreter:
 
 ```bash
-# -i = no UI; repeat -b for several commands; default interpreter is Script-Fu
-gimp -i -b '(car (gimp-image-new 640 480 RGB))'
+gimp-console-3.0 --new-instance --no-interface --quit \
+  --batch-interpreter=plug-in-script-fu-eval \
+  --batch='(gimp-message "Batch ready")'
 ```
 
-See `pdb-recipes-io-batch.md` for a load/flatten/save batch and the (deprecated) quit note.
+`--new-instance` isolates the batch from an already running interactive session. `--quit` exits that instance after processing. Specify `--batch-interpreter` rather than depending on an installation's default. `--batch=-` reads commands from standard input. `--no-data` and `--no-fonts` skip resources; use them only when the job does not need those resources.
 
-## Do / Don't
-
-- **Do** open **Filters > Development > Script-Fu > Script-Fu Console** (or the Python-Fu Console) to test calls interactively.
-- **Do** match a plug-in's folder name to its filename when installing.
-- **Don't** assume the older `Filters > Script-Fu > Console` path; 3.2 places both consoles under **Development**.
-- **Don't** invent batch procedures the manual does not state — verify them in the Procedure Browser.
+For a complete load/flatten/export example and cleanup, open [File I/O and batch](pdb-recipes-io-batch.md). Check the actual installed GIMP version, procedures and dependencies before running automation; syntax checks alone do not establish native execution.
 
 ## Related
 
-`script-fu.md` · `python-fu.md` · `pdb-reference.md` · `pdb-recipes-io-batch.md` · `filters.md`
+[PDB lookup](pdb-reference.md) · [Script-Fu](script-fu.md) · [Python plug-ins](python-fu.md) · [Images and layers](pdb-recipes-images-layers.md)

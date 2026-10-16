@@ -1,60 +1,65 @@
 # Script-Fu Language Essentials
 
-Script-Fu is GIMP's built-in Scheme scripting language whose forms call the PDB. This file covers the syntax, the registration functions, and the GIMP 3 (ScriptFu v3) changes.
-
-**When this applies:** Read this when writing, fixing, or explaining a `.scm` Script-Fu script, or when you need the registration functions or the `SF-` argument types.
+Open when writing Scheme expressions, selecting a PDB binding dialect, or registering Script-Fu procedures and menus in GIMP 3.x.
 
 ## Scheme syntax
 
-Everything is a parenthesized list whose first element is the operator; calls nest freely. Bind locals with `let*`, reassign with `set!`, define procedures with `define`; take a list's head with `car` and tail with `cdr`; quote a literal list with `'(…)`.
+Calls use parenthesized prefix notation. Bind locals with `let*`, assign with `set!`, and define variables or functions with `define`. `car` and `cdr` select a list's head and tail; quoting prevents evaluation of a literal list.
 
 ```scheme
 (let* ((sum (+ 5 6))) (car '("a" "b")))   ; → "a"
 ```
 
-## Calling a PDB procedure
+## PDB binding dialects
 
-Procedures are dashed names that return a list, so wrap the call in `car` to grab the result:
+GIMP 3's Script-Fu starts in the v2 binding dialect, including in the console. A single PDB result is wrapped in a list there; `car` extracts it. The optional v3 dialect returns single values directly and represents returned booleans as `#t` or `#f`. Multiple return values still require their documented structure.
 
-```scheme
-(let* ((image (car (gimp-image-new 640 480 RGB))))
-  (gimp-display-new image)
-  (gimp-image-clean-all image))
-```
-
-## Registering a script (classic form)
-
-`script-fu-register` takes, in this exact order: procedure name, label, description, author, copyright, date, an image-types string (empty for none), then one `SF-TYPE  "label"  default` triplet per parameter; `script-fu-menu-register` places it in a menu.
+Enable v3 at the beginning of a plug-in's run function, not at registration time. This complete helper returns a new image ID; the caller owns displaying or deleting the image:
 
 ```scheme
-(script-fu-register
-  "script-fu-my-box" "My Box" "Builds a box." "Author"
-  "copyright 2026, Author" "June 15, 2026" ""
-  SF-STRING     "Text"      "Hi"
-  SF-ADJUSTMENT "Font size" '(50 1 1000 1 10 0 1)
-  SF-COLOR      "Color"     '(0 0 0))
-(script-fu-menu-register "script-fu-my-box" "<Image>/Filters/Tutorial")
+(define (make-example-image)
+  (script-fu-use-v3)
+  (gimp-image-new 640 480 RGB))
 ```
 
-## GIMP 3 (ScriptFu v3) changes
+The dialect affects subsequent PDB calls in the interpreter, not just one lexical function. Avoid mixing v2 helpers with v3 callers without an explicit dialect boundary. GIMP 3's array arguments use vectors without a separate array-length argument, independently of the chosen return-value dialect.
 
-- `script-fu-register` is now **deprecated**: scripts using it still run but get an old look-and-feel, no automated dialog, and no persistent settings. Prefer **`script-fu-register-filter`** or **`script-fu-register-procedure`** for new scripts.
-- `SF-VALUE` is **obsolete** (it let users enter arbitrary strings that errored); use `SF-ADJUSTMENT` or `SF-STRING` instead.
+## Register a standalone filter
 
-## SF- argument types
+Save this complete example as `skill-message/skill-message.scm` in a configured Plug-ins folder. Make it executable where required and restart GIMP. It needs an open image with at least one selected drawable and adds a Tutorial menu command that displays a message.
 
-- Object types: `SF-IMAGE`, `SF-LAYER`, `SF-CHANNEL`, `SF-DRAWABLE`, `SF-VECTORS`.
-- Resource types: `SF-BRUSH`, `SF-FONT`, `SF-GRADIENT`, `SF-PALETTE`, `SF-PATTERN`.
-- Inputs: `SF-STRING`, `SF-ADJUSTMENT`, `SF-SPINNER`, `SF-TOGGLE`, `SF-COLOR`, `SF-OPTION`, `SF-ENUM`.
-- v3 multi-drawable: `SF-ONE-DRAWABLE`, `SF-ONE-OR-MORE-DRAWABLE`, `SF-TWO-OR-MORE-DRAWABLE`.
+```scheme
+#!/usr/bin/env gimp-script-fu-interpreter-3.0
 
-## Do / Don't
+(define (plug-in-skill-message image drawables text)
+  (script-fu-use-v3)
+  (gimp-message text))
 
-- **Do** wrap PDB calls in `car` to extract the returned value.
-- **Do** prefer `script-fu-register-filter` / `script-fu-register-procedure` for new GIMP 3 scripts.
-- **Don't** use `SF-VALUE` in new scripts; it is obsolete.
-- **Don't** drop or misorder the seven leading `script-fu-register` arguments.
+(script-fu-register-filter
+  "plug-in-skill-message"
+  "Skill Message"
+  "Display the supplied message."
+  "Example author"
+  "Example author"
+  "2026"
+  "*"
+  SF-ONE-OR-MORE-DRAWABLE
+  SF-STRING "Message" "Hello")
+(script-fu-menu-register "plug-in-skill-message" "<Image>/Filters/Tutorial")
+```
+
+`script-fu-register-filter` supplies the image and drawables to the run function; do not add those as `SF-IMAGE`/`SF-DRAWABLE` parameter triplets. Use `script-fu-register-procedure` for procedures that do not operate as image filters. These registration functions provide generated dialogs and saved settings for declared inputs.
+
+Classic `script-fu-register` is a compatibility interface. Its leading arguments are name, label, description, author, copyright, date and image types, followed by `SF-TYPE`, label and default triplets. Do not apply that signature to the newer registration functions.
+
+## Input and capability constants
+
+- Object inputs include `SF-IMAGE`, `SF-LAYER`, `SF-CHANNEL`, `SF-DRAWABLE` and `SF-VECTORS`.
+- Resource inputs include `SF-BRUSH`, `SF-FONT`, `SF-GRADIENT`, `SF-PALETTE` and `SF-PATTERN`.
+- Value inputs include `SF-STRING`, `SF-ADJUSTMENT`, `SF-TOGGLE`, `SF-COLOR`, `SF-OPTION` and `SF-ENUM`. Use these instead of obsolete `SF-VALUE`.
+- `SF-SPINNER` selects the widget inside an `SF-ADJUSTMENT` default list, such as `(list 50 1 1000 1 10 0 SF-SPINNER)`; it is not a standalone input type.
+- `SF-ONE-DRAWABLE`, `SF-ONE-OR-MORE-DRAWABLE` and `SF-TWO-OR-MORE-DRAWABLE` declare filter drawable requirements.
 
 ## Related
 
-`scripting-overview.md` · `python-fu.md` · `pdb-reference.md` · `pdb-recipes-images-layers.md` · `pdb-recipes-selections-paths.md`
+[Installation and consoles](scripting-overview.md) · [PDB lookup](pdb-reference.md) · [Image recipes](pdb-recipes-images-layers.md) · [Selection recipes](pdb-recipes-selections-paths.md)

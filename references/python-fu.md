@@ -1,70 +1,60 @@
 # Python-Fu Plug-ins
 
-Python-Fu in GIMP 3.2 is Python 3 driven through GObject Introspection: you import the `Gimp` namespace and subclass `Gimp.PlugIn`. This file covers the import preamble, the registration model, calling the PDB, and the console.
+Open when implementing a GIMP 3.x Python plug-in with GObject Introspection or using its Python console.
 
-**When this applies:** Read this when writing or reading a GIMP 3.2 Python plug-in, setting up the `gi` imports, wiring registration, or calling the PDB from Python.
+## A complete message plug-in
 
-## The import preamble
-
-Pin each typelib version with `gi.require_version` before importing it.
+Save the following as `skill-message/skill-message.py` in a configured Plug-ins folder. Make it executable where required and restart GIMP. Run it with an image and drawable selected. The example adds **Filters > Tutorial > Skill Message** and reports a message without editing the image.
 
 ```python
+#!/usr/bin/env python3
 import sys
 import gi
-gi.require_version('Gimp', '3.0')
+
+gi.require_version("Gimp", "3.0")
 from gi.repository import Gimp
-gi.require_version('GimpUi', '3.0')
-from gi.repository import GimpUi
-from gi.repository import GObject
-from gi.repository import GLib
-```
 
-## Declaring and building a procedure
 
-Subclass `Gimp.PlugIn`; return procedure names from `do_query_procedures`; construct each in `do_create_procedure` with `Gimp.ImageProcedure.new`. The `run` callback receives `(procedure, run_mode, image, drawables, config, run_data)` — note `drawables` is plural.
-
-```python
-class MyPlugin(Gimp.PlugIn):
+class MessagePlugin(Gimp.PlugIn):
     def do_query_procedures(self):
-        return ["my-plug-in"]
+        return ["plug-in-skill-message-python"]
+
     def do_create_procedure(self, name):
-        proc = Gimp.ImageProcedure.new(self, name, Gimp.PDBProcType.PLUGIN, self.run, None)
-        proc.set_menu_label("My plug-in")
-        proc.add_menu_path('<Image>/Filters/Tutorial/')
-        return proc
+        if name != "plug-in-skill-message-python":
+            return None
+        procedure = Gimp.ImageProcedure.new(
+            self, name, Gimp.PDBProcType.PLUGIN, self.run, None
+        )
+        procedure.set_image_types("*")
+        procedure.set_sensitivity_mask(Gimp.ProcedureSensitivityMask.DRAWABLE)
+        procedure.set_menu_label("Skill Message")
+        procedure.add_menu_path("<Image>/Filters/Tutorial")
+        procedure.set_documentation("Show a message", "Display Hello.", name)
+        procedure.set_attribution("Example author", "Example author", "2026")
+        return procedure
+
     def run(self, procedure, run_mode, image, drawables, config, run_data):
         Gimp.message("Hello")
-        return procedure.new_return_values(Gimp.PDBStatusType.SUCCESS, GLib.Error())
+        return procedure.new_return_values(Gimp.PDBStatusType.SUCCESS, None)
 
-Gimp.main(MyPlugin.__gtype__, sys.argv)
+
+Gimp.main(MessagePlugin.__gtype__, sys.argv)
 ```
 
-## Calling a PDB procedure by name
+The callback receives `(procedure, run_mode, image, drawables, config, run_data)`; `drawables` is a collection, not a single drawable. Query names and created procedure names must agree.
 
-Look it up, build a config, set properties, run; check the status from `result.index(0)`:
+## Imports and PDB calls
 
-```python
-procedure = Gimp.get_pdb().lookup_procedure('gimp-image-flatten')
-config = procedure.create_config()
-config.set_property('image', image)
-result = procedure.run(config)
-if result.index(0) is Gimp.PDBStatusType.SUCCESS:
-    pass
-```
+Pin versioned namespaces before importing them: GIMP 3.2 still uses `gi.require_version("Gimp", "3.0")`. If a plug-in needs a GUI, also require `GimpUi` version `3.0` before importing `GimpUi`. Import `GLib` for error objects and `GObject` when declaring properties; the message example needs neither.
 
-Typed GObject-Introspection methods are the alternative: `Gimp.Image.new(...)`, `drawable.brightness_contrast(...)`.
+Typed methods such as `Gimp.Image.new(...)` and `drawable.brightness_contrast(...)` are available alongside [generic PDB lookup](pdb-reference.md#calling-from-python). A looked-up procedure takes a config object, not the positional arguments used by a typed method. Set `run-mode` only for procedures whose signatures contain that property.
 
-## The Python-Fu Console
+## Python-Fu Console
 
-Open **Filters > Development > Python-Fu > Python-Fu Console** — an interactive Python shell pre-loaded with the `gimp` and `pdb` objects.
+Open **Filters > Development > Python-Fu > Python Console**. GIMP 3 preloads namespaces including `Gimp`, `Gio`, `GimpUi`, `GLib` and `GObject`. Use `Gimp.get_pdb()` to access procedures and the console's browser to inspect available calls. Do not assume GIMP 2's lowercase `gimp` and `pdb` globals exist.
 
-## Do / Don't
-
-- **Do** call `gi.require_version(...)` for each namespace before importing it.
-- **Do** treat `run`'s `drawables` argument as plural (multiple selected drawables).
-- **Don't** carry over GIMP 2.10 Python-Fu idioms; the 3.x model is `Gimp.PlugIn` + GObject Introspection.
-- **Don't** pass run-mode positionally to a looked-up procedure; set it via `config.set_property('run-mode', Gimp.RunMode.NONINTERACTIVE)`.
+Run these examples inside GIMP's connected Python environment. A system Python interpreter with PyGObject alone is not a substitute for the plug-in host.
 
 ## Related
 
-`scripting-overview.md` · `script-fu.md` · `pdb-reference.md` · `pdb-recipes-images-layers.md` · `pdb-recipes-io-batch.md`
+[Installation](scripting-overview.md#installation) · [PDB reference](pdb-reference.md) · [Batch file conversion](pdb-recipes-io-batch.md) · [Script-Fu](script-fu.md)

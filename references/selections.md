@@ -6,7 +6,7 @@ A selection marks which pixels of an image GIMP operations will affect; it can b
 
 ## What a selection is
 
-Every image carries one selection, and most operations act only on its selected portions. Internally the selection is a channel like red, green, blue, and alpha, so each pixel holds a value from 0 (unselected) to 255 (fully selected). This is why a selection can be *partial*: edges can fade smoothly. The moving dashed outline ("marching ants") is only a contour separating pixels that are more than half selected from those less than half selected — it cannot show partial values directly.
+Every image carries one selection, and most operations act only on its selected portions. Selection coverage is a mask from unselected to fully selected. An 8-bit illustration uses 0 to 255; this is not a claim that every image precision stores the selection in 8 bits. This is why a selection can be *partial*: edges can fade smoothly. The moving dashed outline ("marching ants") is only a contour separating pixels that are more than half selected from those less than half selected — it cannot show partial values directly.
 
 ```text
 pixel value 0   = unselected (edit does nothing here)
@@ -46,4 +46,4 @@ Sharp circular selection, then Select > Feather… (e.g. 8 px)
 
 ## Related
 
-`masks-and-channels.md` · `paths.md` · `tools-overview.md` · `pdb-recipes-selections-paths.md`
+[masks and channels](masks-and-channels.md) · [paths](paths.md) · [tools overview](tools-overview.md) · [pdb recipes selections paths](pdb-recipes-selections-paths.md)

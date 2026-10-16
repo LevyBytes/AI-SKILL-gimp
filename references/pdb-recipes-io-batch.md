@@ -1,57 +1,75 @@
 # PDB Recipes: File I/O and Batch
 
-Worked PDB calls for loading, exporting, and running GIMP headless in 3.x, with procedure names and
-signatures confirmed against the GIMP 3.0 API. Script-Fu uses the hyphenated form; confirm parameter
-details in **Help > Procedure Browser**.
+Open when loading, saving or exporting images programmatically, or running an isolated GIMP batch conversion.
 
-**When this applies:** Read this when scripting file load/save/export, flatten-before-export, or
-headless/batch runs.
+## File argument conventions
 
-## Load and save
+In GIMP 3's Python API, `Gimp.file_load(run_mode, file)` takes a `Gio.File` and returns an image. `Gimp.file_save(run_mode, image, file, options)` saves XCF or exports according to the destination extension. Its currently unused `options` argument must be `None`; it does not accept a separate drawable.
 
-`gimp-file-load` takes a run mode and a file and returns the image. `gimp-file-save` takes a run mode,
-image, file, and export options — **note 3.0 dropped the per-drawable argument** that 2.10 had; it now
-saves the whole image, and `options` may be NULL. Both pick the format from the file.
+Script-Fu binds file arguments to filename strings. Its return wrapping depends on the [selected dialect](script-fu.md#pdb-binding-dialects). Do not copy a C `NULL` token or a `Gio.File` object into Scheme code.
 
-```scheme
-(let* ((image (car (gimp-file-load RUN-NONINTERACTIVE file))))
-  (gimp-image-flatten image)
-  (gimp-file-save RUN-NONINTERACTIVE image file options)   ; options may be NULL
-  (gimp-displays-flush))
+## Complete PNG-to-JPEG example
+
+Save this block as `convert.py` beside an existing `input.png`. It requires GIMP 3's connected Python environment and installed PNG/JPEG handlers. `output.jpg` must not already exist. The loaded image is private to this job: flattening discards its layer structure and composites transparency against white, while the source file is untouched.
+
+```python
+from pathlib import Path
+import gi
+
+gi.require_version("Gimp", "3.0")
+gi.require_version("Gegl", "0.4")
+from gi.repository import Gimp, Gegl, Gio
+
+
+def convert_png_to_jpeg(source_name, target_name):
+    source = Path(source_name).resolve(strict=True)
+    target = Path(target_name).resolve()
+    if source == target or target.exists():
+        raise FileExistsError(f"Destination must be new: {target}")
+    Gegl.init(None)
+    image = Gimp.file_load(
+        Gimp.RunMode.NONINTERACTIVE, Gio.File.new_for_path(str(source))
+    )
+    if image is None:
+        raise RuntimeError("GIMP could not load the source")
+    try:
+        Gimp.context_push()
+        try:
+            if not Gimp.context_set_background(Gegl.Color.new("white")):
+                raise RuntimeError("GIMP could not set the background")
+            if image.flatten() is None:
+                raise RuntimeError("GIMP could not flatten the image")
+        finally:
+            Gimp.context_pop()
+        saved = Gimp.file_save(
+            Gimp.RunMode.NONINTERACTIVE,
+            image,
+            Gio.File.new_for_path(str(target)),
+            None,
+        )
+        if not saved:
+            raise RuntimeError("GIMP could not export the image")
+    finally:
+        image.delete()
+
+
+convert_png_to_jpeg("input.png", "output.jpg")
 ```
 
-In the C/GI API the file is a `GFile`: `gimp_file_load(run_mode, file)` returns a `GimpImage`, and
-`gimp_file_save(run_mode, image, file, options)` returns a boolean. TODO: confirm how Script-Fu passes
-the file (string vs `GFile`) and the `options` value in the Procedure Browser. `RUN-NONINTERACTIVE`
-(Script-Fu) corresponds to `Gimp.RunMode.NONINTERACTIVE` (Python).
+The existing-file check assumes one writer; it is not an atomic filesystem reservation. A failed exporter may leave a partial destination, so inspect it before retrying. For explicit JPEG quality or metadata choices, inspect the installed JPEG export procedure and set its config rather than assuming generic save defaults.
 
-## Headless / batch invocation
+## Run the batch
 
-The manual documents these command-line flags verbatim (Chapter 2, "Starting GIMP"):
-
-- `-i`, `--no-interface` — run without a user interface.
-- `-b`, `--batch=commands` — execute commands non-interactively; when the command is `-`, read from standard input.
-- `--batch-interpreter=proc` — procedure used to process batch commands; the default is Script-Fu.
-- `-d`, `--no-data` and `-f`, `--no-fonts` — skip loading data/fonts for faster startup.
+From the directory containing those files, use the installed console executable. This is POSIX-shell syntax; on Windows use the installed executable path and equivalent shell quoting. The GIMP Python batch plug-in must be available.
 
 ```bash
-# Convert a PNG to JPEG headless; default interpreter is Script-Fu
-gimp -i -d -f -b '(let* ((img (car (gimp-file-load RUN-NONINTERACTIVE (gimp-file-load-...)))))...)'
+gimp-console-3.0 --new-instance --no-interface --quit \
+  --batch-interpreter=python-fu-eval \
+  --batch='exec(open("convert.py", encoding="utf-8").read())'
 ```
 
-## Quitting
-
-`gimp-quit` exists but is **deprecated** in 3.0 and now takes **no arguments** (`gimp_quit(void)`); the
-docs advise plug-ins to quit cleanly by returning gracefully rather than forcing it. This corrects the
-old 2.10 idiom `(gimp-quit 0)` — do not pass an argument.
-
-## Do / Don't
-
-- **Do** pair `--batch` with `-i`, and combine `-d -f` for fast, dependency-light headless runs.
-- **Do** flatten before exporting to flat formats; `gimp-file-save` selects the format from the file.
-- **Don't** pass a drawable to `gimp-file-save` — 3.0 removed that argument.
-- **Don't** call `(gimp-quit 0)`; 3.0's `gimp-quit` takes no argument and is deprecated.
+`--new-instance` creates a separate process; `--quit` closes it after the requested work. Do not use a forced PDB quit against an interactive instance. `--batch=-` reads commands from stdin. Avoid `--no-data`/`--no-fonts` for jobs that require those resources. Check the process exit status and exported file; successfully parsing the Python is not proof that a GIMP exporter ran.
 
 ## Related
 
-`pdb-recipes-images-layers.md` · `file-formats-and-export.md` · `scripting-overview.md` · `script-fu.md` · `pdb-reference.md`
+[PDB and quit contracts](pdb-reference.md#keep-the-api-surfaces-distinct) · [Installation and consoles](scripting-overview.md) · [Images and layers](pdb-recipes-images-layers.md) · [Save versus export](file-formats-and-export.md)

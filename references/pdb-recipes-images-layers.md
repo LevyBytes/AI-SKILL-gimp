@@ -1,59 +1,58 @@
 # PDB Recipes: Images and Layers
 
-Worked Script-Fu calls for building images and managing layers, using only procedure names the GIMP 3.2 manual prints. Run snippets in the console at **Filters > Development > Script-Fu > Script-Fu Console**.
+Open when creating, filling, resizing, moving or flattening images and layers through Script-Fu in GIMP 3.x.
 
-**When this applies:** Read this when you are driving GIMP through the PDB and need to create an image, add or stack layers, fill, resize, or flatten.
+## Create an image and retain its objects
 
-## Create an image with a layer and show it
-
-Make a blank RGB image, add a full-size layer, fill its background, then display.
+Run this setup in the Script-Fu Console. It explicitly selects the v2 binding dialect, so `car` extracts single PDB results. `img` and `lyr` remain available for the later snippets in this file. Use a disposable image for these editing examples.
 
 ```scheme
-(let* ((img (car (gimp-image-new 640 480 RGB)))
-       (lyr (car (gimp-layer-new img "layer 1" 640 480 RGB-IMAGE 100 LAYER-MODE-NORMAL))))
-  (gimp-image-insert-layer img lyr 0 0)        ; args: image layer parent position
-  (gimp-context-set-background '(255 255 255))
-  (gimp-drawable-fill lyr FILL-BACKGROUND)
-  (gimp-display-new img)
-  (gimp-image-clean-all img))
+(script-fu-use-v2)
+(define img (car (gimp-image-new 640 480 RGB)))
+(define lyr
+  (car (gimp-layer-new img "Example layer" 640 480
+                       RGB-IMAGE 100 LAYER-MODE-NORMAL)))
+(gimp-image-insert-layer img lyr -1 0)
+(gimp-context-push)
+(gimp-context-set-background '(255 255 255))
+(gimp-drawable-fill lyr FILL-BACKGROUND)
+(gimp-context-pop)
+(gimp-display-new img)
 ```
+
+Insertion arguments are image, layer, parent and position; `-1` denotes no parent in Script-Fu. Do not mark a newly generated unsaved image clean just to suppress its save prompt. If an interactive call fails between context push/pop, restore the context with `(gimp-context-pop)` before continuing.
 
 ## Resize the canvas and a layer together
 
+This fits the canvas to the current layer dimensions and resets their offsets to zero. Run after the setup; edit `w` and `h` when different dimensions are required.
+
 ```scheme
-(let* ((w (car (gimp-drawable-get-width  lyr)))
+(let* ((w (car (gimp-drawable-get-width lyr)))
        (h (car (gimp-drawable-get-height lyr))))
-  (gimp-image-resize img w h 0 0)              ; new-width new-height offx offy
+  (gimp-image-resize img w h 0 0)
   (gimp-layer-resize lyr w h 0 0))
 ```
 
-## Flatten an image inside an undo group
+## Flatten inside an undo group
 
-`gimp-image-flatten` returns the single resulting layer; wrap multi-step edits so one undo reverses them.
+Flattening discards layer structure and alpha, compositing against the current background color. The returned layer replaces the old `lyr` reference so later commands do not use a removed layer. Start/end grouping makes a successful edit one undo step; if the call raises in the console, end the open group before continuing.
 
 ```scheme
 (gimp-image-undo-group-start img)
-(gimp-image-flatten img)
+(set! lyr (car (gimp-image-flatten img)))
 (gimp-image-undo-group-end img)
 ```
 
-## Move a layer by an offset
+## Move the current layer
 
 ```scheme
-(gimp-layer-set-offsets lyr 35 35)             ; offset-x offset-y
+(gimp-layer-set-offsets lyr 35 35)
 ```
 
-## Layer ops the web manual leaves to the browser
+Offsets are absolute image-relative coordinates. After edits, `(gimp-displays-flush)` refreshes displays when needed. Before duplicating, merging down, reordering, or setting opacity/mode, look up the exact installed procedure in **Help > Procedure Browser**; menu names alone are not signatures.
 
-TODO: the 3.2 web manual documents duplicate, merge-down, reorder, and the opacity/mode setters only as **Layer** menu commands (e.g. **Layer > Duplicate Layers**, **Layer > Merge Down**), not as PDB names. Look up the exact procedures in **Help > Procedure Browser**.
-
-## Do / Don't
-
-- **Do** take `(car …)` of a procedure result: GIMP returns lists, even for one value.
-- **Do** pass colors as `'(r g b)` lists and use the constants `RGB`, `RGB-IMAGE`, `LAYER-MODE-NORMAL`, `FILL-BACKGROUND` verbatim.
-- **Don't** invent layer procedure names; verify any not shown here in the Procedure Browser.
-- **Don't** reorder arguments — `gimp-image-insert-layer` is image, layer, parent, position.
+These console recipes deliberately use v2 return wrapping. For a new v3 plug-in, read the [dialect rules](script-fu.md#pdb-binding-dialects), switch inside the run function and remove the single-result wrappers consistently.
 
 ## Related
 
-`pdb-recipes-selections-paths.md` · `pdb-recipes-io-batch.md` · `script-fu.md` · `pdb-reference.md` · `layers-and-modes.md`
+[Selections and paths](pdb-recipes-selections-paths.md) · [File I/O](pdb-recipes-io-batch.md) · [PDB lookup](pdb-reference.md) · [Layer concepts](layers-and-modes.md)

@@ -1,108 +1,38 @@
 ---
 name: gimp
-description: >-
-  Use when working with GIMP, the GNU Image Manipulation Program (especially GIMP 3.2) - editing or
-  generating raster images; working with layers, layer/blend modes, masks, channels, selections, or
-  Bézier paths; applying tools or filters; adjusting colors, levels, curves, or ICC color profiles;
-  importing or exporting image files (.xcf, PNG, JPEG); or automating GIMP through Script-Fu,
-  Python-Fu, the Script-Fu Console, or the Procedural Database (PDB) - including driving GIMP from a
-  GIMP MCP server or a headless/batch (gimp -i -b) run. Also fires when you see .xcf files, gimp-*
-  procedure calls, script-fu-register, "from gi.repository import Gimp", or GObject-Introspection
-  GIMP plug-ins, even when the user never says "GIMP" by name. Gives task-routed, faithful 3.2
-  reference with worked examples.
-covers:
-  - recipe
-  - procedure browser
-  - selection
-  - feather
-  - save to channel
-  - paths
-  - levels
-  - curves
-  - xcf
-  - export
-  - script-fu
-  - python-fu
+description: "Use for GIMP 3.2 raster editing and generation; layers, blend modes, masks, channels, selections and Bezier paths; tools, filters, colors, levels, curves and ICC profiles; XCF, PNG and JPEG import/export; or Script-Fu, Python-Fu, Script-Fu Console and PDB automation, including GIMP MCP and headless/batch runs. Also use for .xcf files, gimp-* procedures, script-fu-register, gi.repository.Gimp and GObject-Introspection plug-ins without an explicit GIMP mention."
+metadata:
+  last-updated: "2026-10-09"
 ---
 
-# GIMP 3.2
+# Context Router
 
-Task-organized, faithful guidance for GIMP 3.2 (GNU Image Manipulation Program), with emphasis on
-driving GIMP programmatically through Script-Fu, Python-Fu, and the Procedural Database (PDB) — for
-example from a GIMP MCP server. Content is original; identifiers (menu paths, option labels,
-keyboard shortcuts, mode names, procedure names, numbers) are preserved exactly as the manual prints
-them.
+Choose the relevant GIMP operation below.
 
-## When to use this skill
+| Topic | Open when | Read |
+| --- | --- | --- |
+| Interface and Workflow | Open when arranging GIMP windows, docks, or dialogs, navigating images, undoing edits, or choosing image mode and encoding. | [Interface and Workflow](references/interface-and-workflow.md) |
+| Tools Overview | Open when choosing a GIMP tool, finding its keyboard shortcut, or configuring Tool Options. | [Tools Overview](references/tools-overview.md) |
+| Layers and Layer Modes | Open when organizing layers or groups, adjusting opacity and alpha, or choosing blend and paint modes. | [Layers and Layer Modes](references/layers-and-modes.md) |
+| Selections | Open when creating, combining, feathering, growing, or inverting selections. | [Selections](references/selections.md) |
+| Layer Masks, Channels, and Quick Mask | Open when editing layer masks, storing selections in channels, or using Quick Mask. | [Layer Masks, Channels, and Quick Mask](references/masks-and-channels.md) |
+| Paths | Open when editing Bézier paths, stroking paths, converting paths and selections, or importing and exporting SVG. | [Paths](references/paths.md) |
+| Colors and Adjustments | Open when adjusting colors, levels, curves, or hue and saturation, or assigning and converting ICC profiles. | [Colors and Adjustments](references/colors-and-adjustments.md) |
+| Filters | Open when choosing a filter category or repeating and reopening the last filter. | [Filters](references/filters.md) |
+| File Formats and Export | Open when opening images, saving XCF projects, exporting or overwriting images, or configuring PNG and JPEG options. | [File Formats and Export](references/file-formats-and-export.md) |
+| Scripting and Plug-ins | Open when choosing Script-Fu or Python-Fu, installing scripts and plug-ins, using consoles, or configuring headless batch calls. | [Scripting and Plug-ins](references/scripting-overview.md) |
+| The Procedural Database (PDB) | Open when looking up exact PDB procedure names, parameter and return types, or language-specific calling conventions. | [The Procedural Database (PDB)](references/pdb-reference.md) |
+| Script-Fu Language Essentials | Open when writing Scheme expressions, invoking PDB procedures, or registering Script-Fu procedures and menus. | [Script-Fu Language Essentials](references/script-fu.md) |
+| Python-Fu Plug-ins | Open when implementing a Python 3 plug-in with GObject Introspection and the Gimp.PlugIn registration model. | [Python-Fu Plug-ins](references/python-fu.md) |
+| PDB Recipes: Images and Layers | Open when automating image or layer creation, filling, resizing, movement, or flattening. | [PDB Recipes: Images and Layers](references/pdb-recipes-images-layers.md) |
+| PDB Recipes: Selections and Paths | Open when automating selections or paths with Procedure Browser-verified PDB names. | [PDB Recipes: Selections and Paths](references/pdb-recipes-selections-paths.md) |
+| PDB Recipes: Colors and Filters | Open when automating color adjustments or filters with Procedure Browser-verified PDB names. | [PDB Recipes: Colors and Filters](references/pdb-recipes-color-filters.md) |
+| PDB Recipes: File I/O and Batch | Open when automating file save or export, flattening before export, or running headless batch processing. | [PDB Recipes: File I/O and Batch](references/pdb-recipes-io-batch.md) |
 
-Reach for this skill whenever a task touches GIMP: editing or generating images; layers, blend modes,
-masks, channels, selections, or paths; tools or filters; color adjustments and color management;
-opening, saving (`.xcf`), or exporting (PNG/JPEG); or automating GIMP via Script-Fu / Python-Fu / the
-PDB — including when the user opens a `.xcf` file, pastes `gimp-*` calls, writes `script-fu-register`
-or `from gi.repository import Gimp`, or wires up a GIMP MCP server, without naming "GIMP".
+# Language Translations
 
-## How to use it (runtime workflow)
+[Reference Language Selection](references/languages.md)
 
-1. Read this file, then consult the **task router** below (or `references/topics.json`).
-2. Open only the one or two reference files relevant to the task — do not read everything
-   (progressive disclosure).
-3. Answer strictly from the reference; preserve menu paths, option labels, shortcuts, mode names, and
-   procedure names exactly as written.
-4. If something is not covered, say so and mark it `TODO` — never invent a menu path, option, or PDB
-   procedure name. For scripting, the in-app **Help > Procedure Browser** is the authoritative source
-   for exact procedure names, parameters, and return types.
-5. Remember the GIMP 3.x API is not 2.10: Python-Fu is Python 3 + GObject Introspection, and many PDB
-   procedures were renamed — verify names before relying on them.
+# Context For Open Source
 
-## Task router
-
-| If the task is about… | Read |
-| --- | --- |
-| windows, docks/dialogs, the menu map, zoom/undo, image Mode or Encoding (bit depth) | `references/interface-and-workflow.md` |
-| the Toolbox, Tool Options, which tool to use and its shortcut | `references/tools-overview.md` |
-| layers, the Layers dialog, groups, alpha, opacity, blend/paint modes | `references/layers-and-modes.md` |
-| selections, selection modes, feathering, the Select menu | `references/selections.md` |
-| layer masks, the Channels dialog, saving/loading selections, Quick Mask | `references/masks-and-channels.md` |
-| Bézier paths, the Paths dialog, stroking, path↔selection, SVG | `references/paths.md` |
-| the Colors menu, levels/curves/hue-saturation, ICC profiles (assign vs convert) | `references/colors-and-adjustments.md` |
-| the Filters menu taxonomy, Repeat/Re-Show Last | `references/filters.md` |
-| opening/importing, saving `.xcf`, exporting/overwriting, PNG/JPEG options | `references/file-formats-and-export.md` |
-| Script-Fu vs Python-Fu, the consoles, install dirs, batch/headless flags | `references/scripting-overview.md` |
-| the PDB, Procedure Browser, procedure naming and types | `references/pdb-reference.md` |
-| Scheme syntax, `script-fu-register` / `script-fu-menu-register` | `references/script-fu.md` |
-| Python 3 + GObject Introspection, the `Gimp.PlugIn` model | `references/python-fu.md` |
-| scripting image/layer ops (create, fill, resize, flatten) | `references/pdb-recipes-images-layers.md` |
-| scripting selections and paths | `references/pdb-recipes-selections-paths.md` |
-| scripting color adjustments and filters | `references/pdb-recipes-color-filters.md` |
-| scripting file save/export and headless batch runs | `references/pdb-recipes-io-batch.md` |
-
-## Gotchas
-
-Recurring failure modes and what to do instead live in the sibling [GOTCHA.md](GOTCHA.md).
-
-## Verification notes
-
-Validate the package structure (the validator ships with the skill-drafting skill; paths use the `DEVROOT` env var — adjust to your layout):
-
-```powershell
-python "$env:DEVROOT\SKILLS\skills\skill-drafting\scripts\validate_skill_package.py" "$env:DEVROOT\SKILLS\skills\gimp"
-```
-
-This package is built and checked with the three-layer method (Spec → Verifier → Environment).
-Ground-truth checks live in `AI/work/verify_gimp.py` (stdlib only; run `python AI/work/verify_gimp.py
---both`). It verifies: every reference is listed in `references/INDEX.md`, has exactly one
-`references/topics.json` entry, and resolves its cross-links; each reference contains a summary, a
-"When this applies" line, at least one example, and a Do/Don't or anti-patterns section, with no empty
-placeholders; an originality gate rejects source branding/attribution/license leakage in the
-references and in the SKILL.md body (outside "Inspired by"); a preserve-glossary of load-bearing
-identifiers (menu paths, shortcuts, mode names, PDB procedure names, command-line flags) is grepped
-against the references so accidental renames are caught; and `--both` confirms the `.claude` mirror is
-byte-identical. Keep those invariants when editing.
-
-## Reference map
-
-Start at `references/INDEX.md`. Metadata: `references/topics.json` (topic → file + keywords).
-
-## Official documentation
-
-Includes original content written for this skill. The official documentation is at https://docs.gimp.org/ — consult it to verify anything uncertain, conflicting, or version-specific.
+Skill reference documentation is interpreted content for use in open source projects. Check against [official documentation sources](https://docs.gimp.org/) when dealing with defects or issues that may come up from interpreting this skill's references.

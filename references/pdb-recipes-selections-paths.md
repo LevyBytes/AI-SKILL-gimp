@@ -4,6 +4,8 @@ Worked PDB calls for selections and paths in GIMP 3.x, using procedure names con
 
 **When this applies:** Read this when scripting selections (make, modify, save) or converting a path to a selection while driving GIMP.
 
+These are independent call fragments, not a complete program. Bind `image` to an existing image ID, `item` to an item belonging to it, and the geometry/radius variables to the desired numeric values. The return-value example uses the console's default v2 dialect; select `(script-fu-use-v2)` if the session has changed dialect.
+
 ## Geometric selections
 
 Selection-by-shape procedures live on the image; the argument after the image is the channel operation (a `GimpChannelOps` value such as `CHANNEL-OP-REPLACE`).
@@ -57,13 +59,13 @@ radius)`, `Gimp.Selection.invert(image)`, `Gimp.Selection.none(image)`.
 ## Do / Don't
 
 - **Do** confirm each procedure's parameter order/types in **Help > Procedure Browser** before relying on it.
-- **Do** take `(car …)` of a returning call (for example `gimp-selection-save`).
+- **Do** take `car` of the single returned channel in v2; v3 returns it directly (see [dialects](script-fu.md#pdb-binding-dialects)).
 - **Don't** carry over 2.10 names blindly; these are the GIMP 3.0 names.
 - **Don't** assume a channel-op constant; pass the documented `GimpChannelOps` value (e.g. `CHANNEL-OP-REPLACE`).
 
 ## Related
 
-`pdb-recipes-images-layers.md` · `pdb-recipes-color-filters.md` · `selections.md` · `paths.md` · `pdb-reference.md`
+[pdb recipes images layers](pdb-recipes-images-layers.md) · [pdb recipes color filters](pdb-recipes-color-filters.md) · [selections](selections.md) · [paths](paths.md) · [pdb reference](pdb-reference.md)
 
 ## See also
 

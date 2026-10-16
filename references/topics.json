@@ -4,104 +4,92 @@
     {
       "topic": "Interface and Workflow",
       "file": "references/interface-and-workflow.md",
-      "summary": "GIMP's windows, single-window mode, docks and dialogs, the menu map, zoom/navigation/undo, and image Mode and Encoding (bit depth).",
-      "keywords": ["interface", "single-window mode", "docks", "dialogs", "menu", "undo history", "image mode", "encoding", "precision"]
-    },
+      "summary": "Open when arranging GIMP windows, docks, or dialogs, navigating images, undoing edits, or choosing image mode and encoding.",
+      "keywords": ["interface", "single-window mode", "docks", "dialogs", "menu", "undo history", "image mode", "encoding", "precision"]},
     {
       "topic": "Tools Overview",
       "file": "references/tools-overview.md",
-      "summary": "The Toolbox and Tool Options dialog, the five tool categories, and a catalog of tools with their default keyboard shortcuts.",
-      "keywords": ["toolbox", "tool options", "tools", "shortcuts", "selection tools", "paint tools", "transform tools"]
-    },
+      "summary": "Open when choosing a GIMP tool, finding its keyboard shortcut, or configuring Tool Options.",
+      "keywords": ["toolbox", "tool options", "tools", "shortcuts", "selection tools", "paint tools", "transform tools"]},
     {
       "topic": "Layers and Layer Modes",
       "file": "references/layers-and-modes.md",
-      "summary": "The layer stack and Layers dialog, layer attributes, groups, the alpha channel, and the default and legacy blend-mode names.",
-      "keywords": ["layers", "layer modes", "blend modes", "opacity", "layer groups", "alpha channel", "pass through", "flatten"]
-    },
+      "summary": "Open when organizing layers or groups, adjusting opacity and alpha, or choosing blend and paint modes.",
+      "keywords": ["layers", "layer modes", "blend modes", "opacity", "layer groups", "alpha channel", "pass through", "flatten"]},
     {
       "topic": "Selections",
       "file": "references/selections.md",
-      "summary": "Partial/feathered selections, the four selection tool modes, anti-aliasing, and the Select menu operations.",
-      "keywords": ["selection", "marching ants", "feather", "antialiasing", "replace add subtract intersect", "select menu", "grow", "invert"]
-    },
+      "summary": "Open when creating, combining, feathering, growing, or inverting selections.",
+      "keywords": ["selection", "marching ants", "feather", "antialiasing", "replace add subtract intersect", "select menu", "grow", "invert"]},
     {
       "topic": "Layer Masks, Channels, and Quick Mask",
       "file": "references/masks-and-channels.md",
-      "summary": "Layer masks and the white/black direction, the Channels dialog, saving/loading selections to channels, and Quick Mask.",
-      "keywords": ["layer mask", "channels", "quick mask", "save to channel", "alpha", "red green blue", "selection mask"]
-    },
+      "summary": "Open when editing layer masks, storing selections in channels, or using Quick Mask.",
+      "keywords": ["layer mask", "channels", "quick mask", "save to channel", "alpha", "red green blue", "selection mask"]},
     {
       "topic": "Paths",
       "file": "references/paths.md",
-      "summary": "Bézier paths, the Paths tool and dialog, stroking a path, converting between path and selection, and SVG import/export.",
-      "keywords": ["paths", "bezier", "paths dialog", "stroke path", "path to selection", "selection to path", "svg"]
-    },
+      "summary": "Open when editing Bézier paths, stroking paths, converting paths and selections, or importing and exporting SVG.",
+      "keywords": ["paths", "bezier", "paths dialog", "stroke path", "path to selection", "selection to path", "svg"]},
     {
       "topic": "Colors and Adjustments",
       "file": "references/colors-and-adjustments.md",
-      "summary": "The Colors menu adjustment operations and color management, including the assign-versus-convert ICC-profile distinction.",
-      "keywords": ["colors menu", "levels", "curves", "hue-saturation", "color management", "assign color profile", "convert to color profile", "rendering intent"]
-    },
+      "summary": "Open when adjusting colors, levels, curves, or hue and saturation, or assigning and converting ICC profiles.",
+      "keywords": ["colors menu", "levels", "curves", "hue-saturation", "color management", "assign color profile", "convert to color profile", "rendering intent"]},
     {
       "topic": "Filters",
       "file": "references/filters.md",
-      "summary": "The Filters menu category taxonomy and the Repeat Last / Re-Show Last commands.",
-      "keywords": ["filters", "blur", "distort filters", "edge-detect", "repeat last", "re-show last", "filter categories"]
-    },
+      "summary": "Open when choosing a filter category or repeating and reopening the last filter.",
+      "keywords": ["filters", "blur", "distort filters", "edge-detect", "repeat last", "re-show last", "filter categories"]},
     {
       "topic": "File Formats and Export",
       "file": "references/file-formats-and-export.md",
-      "summary": "Opening and importing, saving the native .xcf, exporting/overwriting other formats, and PNG/JPEG export options.",
-      "keywords": ["file formats", "xcf", "export", "overwrite", "png", "jpeg", "save", "import", "open as layers"]
-    },
+      "summary": "Open when opening images, saving XCF projects, exporting or overwriting images, or configuring PNG and JPEG options.",
+      "keywords": ["file formats", "xcf", "export", "overwrite", "png", "jpeg", "save", "import", "open as layers"]},
     {
       "topic": "Scripting and Plug-ins",
       "file": "references/scripting-overview.md",
-      "summary": "Script-Fu vs Python-Fu, the Script-Fu Console and Start Server, installing scripts/plug-ins, and headless/batch command-line flags.",
-      "keywords": ["scripting", "script-fu", "python-fu", "console", "plug-in", "batch", "no-interface", "batch-interpreter", "mcp"]
-    },
+      "summary": "Open when choosing Script-Fu or Python-Fu, installing scripts and plug-ins, using consoles, or configuring headless batch calls.",
+      "keywords": ["scripting", "script-fu", "python-fu", "console", "plug-in", "batch", "no-interface", "batch-interpreter", "mcp"]},
     {
       "topic": "The Procedural Database (PDB)",
       "file": "references/pdb-reference.md",
-      "summary": "What the PDB is, the Procedure Browser, procedure naming conventions, parameter/return types, and calling procedures from either language.",
-      "keywords": ["pdb", "procedural database", "procedure browser", "naming", "return values", "car", "procedure types"]
-    },
+      "summary": "Open when looking up exact PDB procedure names, parameter and return types, or language-specific calling conventions.",
+      "keywords": ["pdb", "procedural database", "procedure browser", "naming", "return values", "car", "procedure types"]},
     {
       "topic": "Script-Fu Language Essentials",
       "file": "references/script-fu.md",
-      "summary": "Scheme syntax (let*, car/cdr, define), calling PDB procedures, and the script-fu-register / script-fu-menu-register argument order.",
-      "keywords": ["script-fu", "scheme", "let*", "car", "cdr", "script-fu-register", "script-fu-menu-register", "SF-ADJUSTMENT"]
-    },
+      "summary": "Open when writing Scheme expressions, invoking PDB procedures, or registering Script-Fu procedures and menus.",
+      "keywords": ["script-fu", "scheme", "let*", "car", "cdr", "script-fu-register", "script-fu-menu-register", "SF-ADJUSTMENT"]},
     {
       "topic": "Python-Fu Plug-ins",
       "file": "references/python-fu.md",
-      "summary": "Python 3 with GObject Introspection: the gi import preamble and the Gimp.PlugIn registration model (do_query_procedures / do_create_procedure / run).",
-      "keywords": ["python-fu", "gobject introspection", "gi.require_version", "Gimp.PlugIn", "do_create_procedure", "Gimp.ImageProcedure", "run"]
-    },
+      "summary": "Open when implementing a Python 3 plug-in with GObject Introspection and the Gimp.PlugIn registration model.",
+      "keywords": ["python-fu", "gobject introspection", "gi.require_version", "Gimp.PlugIn", "do_create_procedure", "Gimp.ImageProcedure", "run"]},
     {
       "topic": "PDB Recipes: Images and Layers",
       "file": "references/pdb-recipes-images-layers.md",
-      "summary": "Worked Script-Fu recipes using real procedure names: create an image and layer, fill, resize, move, and flatten.",
-      "keywords": ["recipe", "gimp-image-new", "gimp-layer-new", "gimp-image-insert-layer", "gimp-image-flatten", "fill", "resize"]
-    },
+      "summary": "Open when automating image or layer creation, filling, resizing, movement, or flattening.",
+      "keywords": ["recipe", "gimp-image-new", "gimp-layer-new", "gimp-image-insert-layer", "gimp-image-flatten", "fill", "resize"]},
     {
       "topic": "PDB Recipes: Selections and Paths",
       "file": "references/pdb-recipes-selections-paths.md",
-      "summary": "A map of selection and path menu commands to automate, with the verified-name calling pattern and Procedure Browser routing.",
-      "keywords": ["recipe", "selection", "paths", "save to channel", "procedure browser", "stroke", "feather"]
-    },
+      "summary": "Open when automating selections or paths with Procedure Browser-verified PDB names.",
+      "keywords": ["recipe", "selection", "paths", "save to channel", "procedure browser", "stroke", "feather"]},
     {
       "topic": "PDB Recipes: Colors and Filters",
       "file": "references/pdb-recipes-color-filters.md",
-      "summary": "A map of Colors-menu adjustments and filters to automate, with the verified-name calling pattern and Procedure Browser routing.",
-      "keywords": ["recipe", "brightness-contrast", "levels", "curves", "desaturate", "filter", "procedure browser"]
-    },
+      "summary": "Open when automating color adjustments or filters with Procedure Browser-verified PDB names.",
+      "keywords": ["recipe", "brightness-contrast", "levels", "curves", "desaturate", "filter", "procedure browser"]},
     {
       "topic": "PDB Recipes: File I/O and Batch",
       "file": "references/pdb-recipes-io-batch.md",
-      "summary": "Save vs export patterns, flatten-before-export, and the verbatim headless/batch command-line flags for running GIMP non-interactively.",
-      "keywords": ["recipe", "export", "batch", "headless", "no-interface", "batch-interpreter", "gimp-image-flatten", "xcf"]
-    }
+      "summary": "Open when automating file save or export, flattening before export, or running headless batch processing.",
+      "keywords": ["recipe", "export", "batch", "headless", "no-interface", "batch-interpreter", "gimp-image-flatten", "xcf"]},
+    {
+      "topic": "Reference Language Selection",
+      "file": "references/languages.md",
+      "summary": "Open when you need a language version of this skill's references other than English.",
+      "keywords": ["reference language", "translated references", "language selection"]}
   ]
 }

@@ -1,53 +1,46 @@
 # PDB Recipes: Colors and Filters
 
-Worked PDB calls for color/tone adjustments in GIMP 3.x, confirmed against the GIMP 3.0 API
-(`Gimp.Drawable` methods). Script-Fu uses the hyphenated form; confirm parameter ranges and enum
-values in **Help > Procedure Browser**.
+Open when automating tonal adjustments or locating a filter's callable contract in GIMP 3.x.
 
-**When this applies:** Read this when scripting brightness/contrast, levels, curves, desaturate,
-threshold, or other tonal adjustments, or running a filter, via the PDB.
+## Drawable prerequisites
 
-## Tone and color adjustments on a drawable
+The following examples require an existing drawable ID called `drawable`, such as `lyr` from [image setup](pdb-recipes-images-layers.md). They are independent editing examples; do not run all of them as a single desired effect. Check the installed Procedure Browser for mode, channel and selection constraints.
 
-In 3.0 these operate on a drawable and are named `gimp-drawable-*` (the 2.10 short names like
-`gimp-brightness-contrast` are gone):
+## Tone and color signatures
+
+These are schematic calls: bind the named parameters before execution. The `gimp-drawable-*` procedures operate on a drawable, not the whole image object.
 
 ```scheme
 (gimp-drawable-brightness-contrast drawable brightness contrast)
-(gimp-drawable-levels    drawable channel low-in high-in clamp-in gamma low-out high-out clamp-out)
-(gimp-drawable-curves-explicit drawable channel num-values values)
-(gimp-drawable-desaturate drawable desaturate-mode)   ; desaturate-mode is a DESATURATE-* constant
-(gimp-drawable-threshold  drawable channel low high)
-(gimp-drawable-invert     drawable linear)
+(gimp-drawable-levels drawable channel low-in high-in clamp-in
+                      gamma low-out high-out clamp-out)
+(gimp-drawable-desaturate drawable desaturate-mode)
+(gimp-drawable-threshold drawable channel low high)
+(gimp-drawable-invert drawable linear)
 ```
 
-Other confirmed methods: `gimp-drawable-curves-spline`, `gimp-drawable-equalize`,
-`gimp-drawable-hue-saturation`, `gimp-drawable-color-balance`, `gimp-drawable-posterize`.
+Brightness and contrast use the range -1.0 to 1.0. Threshold bounds use 0.0 to 1.0. `channel` is a histogram-channel enum; `desaturate-mode` is a `DESATURATE-*` constant. `clamp-in`, `clamp-out` and `linear` are boolean controls. Match the [Script-Fu dialect](script-fu.md#pdb-binding-dialects) when supplying or interpreting booleans.
 
-There is **no** `gimp-drawable-hue-chroma`: the **Colors > Hue Chroma** UI operation has no
-same-named drawable procedure — locate its operation in the Procedure Browser.
+## Explicit curves use a vector
 
-TODO: exact parameter ranges and enum constants (channels, desaturate mode, the boolean for
-`gimp-drawable-invert`) are not asserted here — read them from the Procedure Browser.
+GIMP 3 Script-Fu passes the sample vector alone; the C API's array count is not a separate PDB argument. This example builds an identity curve of 256 floating-point values in the range 0.0 to 1.0 and applies it to `HISTOGRAM-VALUE`:
 
-## Running a filter
+```scheme
+(let ((values (make-vector 256 0.0)))
+  (do ((i 0 (+ i 1)))
+      ((= i 256))
+    (vector-set! values i (/ i 255.0)))
+  (gimp-drawable-curves-explicit drawable HISTOGRAM-VALUE values))
+```
 
-Most filters are GEGL operations, exposed as `plug-in-*` procedures or run through GEGL; the manual
-does not enumerate them. Find the specific filter procedure in **Help > Procedure Browser** (see
-`filters.md` for the menu taxonomy).
+Other adjustment procedures include `gimp-drawable-curves-spline`, `gimp-drawable-equalize`, `gimp-drawable-hue-saturation`, `gimp-drawable-color-balance` and `gimp-drawable-posterize`; inspect each signature before calling it.
 
-## Python (GObject Introspection) equivalents
+## Filters and Python equivalents
 
-Typed methods on the drawable: `drawable.brightness_contrast(...)`, `drawable.levels(...)`,
-`drawable.desaturate(...)`, `drawable.threshold(...)`.
+A GEGL operation need not have a `plug-in-*` PDB wrapper. Check the Procedure Browser for registered procedures and the GEGL operation/API documentation for operations that have no wrapper. Do not invent `gimp-drawable-hue-chroma` from the **Colors > Hue Chroma** menu label.
 
-## Do / Don't
-
-- **Do** operate on the drawable from your image setup (see `pdb-recipes-images-layers.md`).
-- **Do** confirm parameter ranges and enum constants in the Procedure Browser.
-- **Don't** assume `gimp-drawable-hue-chroma` exists; it does not.
-- **Don't** reuse the 2.10 name `gimp-brightness-contrast`; 3.0 uses `gimp-drawable-brightness-contrast`.
+Typed Python methods include `drawable.brightness_contrast(...)`, `drawable.levels(...)`, `drawable.curves_explicit(...)`, `drawable.desaturate(...)` and `drawable.threshold(...)`. GObject Introspection may hide C array-length parameters too; consult the Python method's help instead of mechanically translating a C signature.
 
 ## Related
 
-`pdb-recipes-images-layers.md` · `pdb-recipes-selections-paths.md` · `colors-and-adjustments.md` · `filters.md` · `pdb-reference.md`
+[Images and layers](pdb-recipes-images-layers.md) · [Selection recipes](pdb-recipes-selections-paths.md) · [Colors](colors-and-adjustments.md) · [Filters](filters.md) · [PDB lookup](pdb-reference.md)

@@ -8,7 +8,7 @@ A layer mask is a grayscale overlay that controls a layer's transparency without
 
 Add a mask with **Layer > Mask > Add Layer Masks…**. The initialization dialog offers **White (full opacity)**, **Black (full transparency)**, **Layer's alpha channel**, **Transfer layer's alpha channel**, **Selection**, **Grayscale copy of layer**, and **Channel**.
 
-Direction is unambiguous: a white mask area makes that part of the layer fully opaque, and a black mask area makes it fully transparent. With the **Selection** initializer, selected areas become opaque and unselected areas transparent.
+White leaves the layer's existing alpha unchanged; black hides the layer and gray partially reduces visibility. A white mask cannot restore pixels already transparent in the layer. The **Selection** initializer uses selection coverage as the mask, preserving existing alpha where fully selected and hiding unselected areas.
 
 ```text
 Apply (bake into layer): Layer > Mask > Apply Layer Masks
@@ -42,11 +42,11 @@ Shift+Q → paint with black to grow the mask (shrink selection), white to shrin
 
 ## Do / Don't
 
-- **Do** remember the mask direction: white = fully opaque, black = fully transparent.
+- **Do** remember the mask direction: white preserves existing alpha, black hides, gray partially masks.
 - **Do** distinguish the thumbnail shortcuts: Alt+click shows the mask, Ctrl+Alt+click disables it.
-- **Don't** restate the Quick Mask rule as "white adds to the selection"; the manual's wording is about the mask area (white/gray decrease the masked area).
+- **Do** paint white to select pixels in Quick Mask, black to deselect, and gray for partial selection.
 - **Don't** confuse fixed color channels (Red/Green/Blue/Alpha) with removable saved selection-mask channels.
 
 ## Related
 
-`layers-and-modes.md` · `selections.md` · `colors-and-adjustments.md` · `pdb-recipes-selections-paths.md`
+[layers and modes](layers-and-modes.md) · [selections](selections.md) · [colors and adjustments](colors-and-adjustments.md) · [pdb recipes selections paths](pdb-recipes-selections-paths.md)

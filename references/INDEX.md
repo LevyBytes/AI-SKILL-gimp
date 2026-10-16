@@ -1,50 +1,25 @@
-# GIMP 3.2 References — Index
+# GIMP reference index
 
-Start here. Each file is a self-contained, original guide to one concern. Load only what the task
-needs (progressive disclosure). Metadata: `topics.json` (topic → file + keywords). All content is
-original prose; names, menu paths, shortcuts, procedure names, and numbers are preserved verbatim
-from the GIMP 3.2 User Manual.
+Choose the GIMP editing or automation task.
 
-## Editing and image structure
-
-| Component | One-line summary | Read this when… |
+- Open when navigating this context through structured topic metadata. [Topic catalog](topics.json).
+| Topic | Open when | Read |
 | --- | --- | --- |
-| [interface-and-workflow.md](interface-and-workflow.md) | Windows, docks/dialogs, the menu map, zoom/undo, image Mode and Encoding | orienting in the UI or setting color mode/bit depth |
-| [tools-overview.md](tools-overview.md) | The Toolbox, Tool Options, and a catalog of tools with default shortcuts | identifying which tool to use and its shortcut |
-| [layers-and-modes.md](layers-and-modes.md) | The layer stack, Layers dialog, groups, alpha, and the blend-mode names | working with layers or picking a blend mode |
-| [selections.md](selections.md) | Partial selections, tool modes, feathering, and the Select menu | constraining edits to part of an image |
-| [masks-and-channels.md](masks-and-channels.md) | Layer masks (white/black direction), the Channels dialog, Quick Mask | masking a layer or saving/loading selections |
-| [paths.md](paths.md) | Bézier paths, the Paths dialog, stroking, path↔selection, SVG | drawing vectors or converting paths and selections |
-| [colors-and-adjustments.md](colors-and-adjustments.md) | The Colors menu operations and color management (assign vs convert) | naming a color op or handling ICC profiles |
-| [filters.md](filters.md) | The Filters menu taxonomy and Repeat/Re-Show Last | locating a filter category or reapplying one |
-| [file-formats-and-export.md](file-formats-and-export.md) | Open/import vs Save (.xcf) vs Export; PNG/JPEG options | opening, saving, or exporting images |
-
-## Scripting, PDB, and automation
-
-| Component | One-line summary | Read this when… |
-| --- | --- | --- |
-| [scripting-overview.md](scripting-overview.md) | Script-Fu vs Python-Fu, the consoles, install dirs, batch flags | automating GIMP or choosing a language |
-| [pdb-reference.md](pdb-reference.md) | The Procedural Database, Procedure Browser, naming, types | finding or calling a PDB procedure |
-| [script-fu.md](script-fu.md) | Scheme syntax essentials and `script-fu-register` argument order | writing or reading a Script-Fu script |
-| [python-fu.md](python-fu.md) | Python 3 + GObject Introspection; the `Gimp.PlugIn` model | writing or reading a Python plug-in |
-| [pdb-recipes-images-layers.md](pdb-recipes-images-layers.md) | Real Script-Fu recipes: create image, layers, fill, resize, flatten | scripting image and layer operations |
-| [pdb-recipes-selections-paths.md](pdb-recipes-selections-paths.md) | Selection/path automation map + Procedure Browser routing | scripting selections or paths |
-| [pdb-recipes-color-filters.md](pdb-recipes-color-filters.md) | Colors/filters automation map + Procedure Browser routing | scripting color adjustments or filters |
-| [pdb-recipes-io-batch.md](pdb-recipes-io-batch.md) | Save/export patterns and verbatim headless/batch command-line flags | exporting or running GIMP headless |
-
-## Reading paths
-
-- **Driving GIMP via PDB/MCP:** scripting-overview → pdb-reference → pdb-recipes-images-layers →
-  pdb-recipes-io-batch, then the other recipe files as needed.
-- **Writing a script/plug-in:** scripting-overview → script-fu or python-fu → pdb-reference.
-- **Editing an image by hand:** interface-and-workflow → tools-overview → layers-and-modes →
-  selections → masks-and-channels.
-- **Color/output work:** colors-and-adjustments → filters → file-formats-and-export.
-
-## Note on PDB coverage
-
-The GIMP 3.2 *web* manual prints exact procedure names only where its Script-Fu tutorial shows them
-(image/layer creation, fill, resize, flatten). For selections, paths, color adjustments, filters, and
-file load/save it documents the **menu commands**, not the procedure signatures. Those references
-therefore route to the in-app **Help > Procedure Browser**, which is the authoritative source for
-exact names, parameters, and return types — they do not guess.
+| Interface and Workflow | Open when arranging GIMP windows, docks, or dialogs, navigating images, undoing edits, or choosing image mode and encoding. | [Interface and Workflow](interface-and-workflow.md) |
+| Tools Overview | Open when choosing a GIMP tool, finding its keyboard shortcut, or configuring Tool Options. | [Tools Overview](tools-overview.md) |
+| Layers and Layer Modes | Open when organizing layers or groups, adjusting opacity and alpha, or choosing blend and paint modes. | [Layers and Layer Modes](layers-and-modes.md) |
+| Selections | Open when creating, combining, feathering, growing, or inverting selections. | [Selections](selections.md) |
+| Layer Masks, Channels, and Quick Mask | Open when editing layer masks, storing selections in channels, or using Quick Mask. | [Layer Masks, Channels, and Quick Mask](masks-and-channels.md) |
+| Paths | Open when editing Bézier paths, stroking paths, converting paths and selections, or importing and exporting SVG. | [Paths](paths.md) |
+| Colors and Adjustments | Open when adjusting colors, levels, curves, or hue and saturation, or assigning and converting ICC profiles. | [Colors and Adjustments](colors-and-adjustments.md) |
+| Filters | Open when choosing a filter category or repeating and reopening the last filter. | [Filters](filters.md) |
+| File Formats and Export | Open when opening images, saving XCF projects, exporting or overwriting images, or configuring PNG and JPEG options. | [File Formats and Export](file-formats-and-export.md) |
+| Scripting and Plug-ins | Open when choosing Script-Fu or Python-Fu, installing scripts and plug-ins, using consoles, or configuring headless batch calls. | [Scripting and Plug-ins](scripting-overview.md) |
+| The Procedural Database (PDB) | Open when looking up exact PDB procedure names, parameter and return types, or language-specific calling conventions. | [The Procedural Database (PDB)](pdb-reference.md) |
+| Script-Fu Language Essentials | Open when writing Scheme expressions, invoking PDB procedures, or registering Script-Fu procedures and menus. | [Script-Fu Language Essentials](script-fu.md) |
+| Python-Fu Plug-ins | Open when implementing a Python 3 plug-in with GObject Introspection and the Gimp.PlugIn registration model. | [Python-Fu Plug-ins](python-fu.md) |
+| PDB Recipes: Images and Layers | Open when automating image or layer creation, filling, resizing, movement, or flattening. | [PDB Recipes: Images and Layers](pdb-recipes-images-layers.md) |
+| PDB Recipes: Selections and Paths | Open when automating selections or paths with Procedure Browser-verified PDB names. | [PDB Recipes: Selections and Paths](pdb-recipes-selections-paths.md) |
+| PDB Recipes: Colors and Filters | Open when automating color adjustments or filters with Procedure Browser-verified PDB names. | [PDB Recipes: Colors and Filters](pdb-recipes-color-filters.md) |
+| PDB Recipes: File I/O and Batch | Open when automating file save or export, flattening before export, or running headless batch processing. | [PDB Recipes: File I/O and Batch](pdb-recipes-io-batch.md) |
+| Reference Language Selection | Open when you need a language version of this skill's references other than English. | [Reference Language Selection](languages.md) |

@@ -34,7 +34,7 @@ Edit > Undo History    (no default shortcut; click any thumbnail to restore that
 
 ## Mode and Encoding
 
-Color mode lives under **Image > Mode** with three choices: RGB, Grayscale, and Indexed (grayscale spans 0 black to 255 white; indexed is limited to roughly 256 colors or less). Bit depth and gamma are separate, under **Image > Encoding**: integer precision (8-bit integer, 16-bit integer, 32-bit integer) or floating point (16-bit floating point, 32-bit floating point), each paired with a Linear light or Non-linear channel encoding. Floating point allows values beyond the 0.0 to 1.0 range for HDR work, while integer clips to the display range.
+Color mode lives under **Image > Mode** with three choices: RGB, Grayscale, and Indexed (8-bit grayscale spans 0 black to 255 white; indexed supports at most 256 palette entries). Bit depth and gamma are separate, under **Image > Encoding**: integer precision (8-bit integer, 16-bit integer, 32-bit integer) or floating point (16-bit floating point, 32-bit floating point), each paired with a Linear light or Non-linear channel encoding. Floating point allows values beyond the 0.0 to 1.0 range for HDR work, while integer storage clips to its numeric channel range, not a monitor gamut.
 
 ```text
 Image > Mode > RGB        Image > Encoding > 32-bit floating point > Linear light
@@ -49,4 +49,4 @@ Image > Mode > RGB        Image > Encoding > 32-bit floating point > Linear ligh
 
 ## Related
 
-`tools-overview.md` · `layers-and-modes.md` · `colors-and-adjustments.md` · `file-formats-and-export.md`
+[tools overview](tools-overview.md) · [layers and modes](layers-and-modes.md) · [colors and adjustments](colors-and-adjustments.md) · [file formats and export](file-formats-and-export.md)

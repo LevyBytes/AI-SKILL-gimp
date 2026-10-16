@@ -33,24 +33,24 @@ Related operations live in submenus: **Auto** (Equalize, White Balance, Stretch 
 Two operations are easy to confuse and must never be swapped.
 
 - **Image > Color Management > Assign Color Profile** assigns a new ICC profile to the image. It changes the profile the existing pixel values are interpreted through; it does not run a colorimetric recalculation, so the displayed colors can change.
-- **Image > Color Management > Convert to Color Profile…** converts the image from its currently assigned ICC profile to another, recalculating pixel data through a chosen rendering intent so appearance is preserved.
+- **Image > Color Management > Convert to Color Profile…** converts the image from its currently assigned ICC profile to another, recalculating pixel data through a chosen rendering intent to preserve appearance as closely as the destination gamut and rendering intent allow.
 
 Convert offers a **Rendering Intent** of **Perceptual**, **Relative colorimetric**, **Saturation**, or **Absolute colorimetric**, plus **Black Point Compensation**. The working space is sRGB by default.
 
 ```text
 Assign  = retag / reinterpret (no recalculation; look may shift)
-Convert = recompute pixels source→destination via rendering intent (look preserved)
+Convert = recompute pixels source→destination via rendering intent (appearance may change with gamut/intent)
 ```
 
 The same submenu exposes **Soft-Proof Profile**, **Soft-Proofing Rendering Intent**, and **Black Point Compensation** to simulate an output device on screen.
 
 ## Do / Don't
 
-- **Do** use **Convert to Color Profile…** when you need the image to look the same under a new profile.
+- **Do** use **Convert to Color Profile…** when changing the pixel encoding for a new profile; inspect gamut and rendering-intent effects.
 - **Do** use **Assign Color Profile** only to set or correct which profile an untagged or mistagged image is read through.
 - **Don't** write "Hue-Chroma" or "Convert Color Profile" — the labels are **Hue Chroma** and **Convert to Color Profile**.
 - **Don't** swap assign and convert: assign reinterprets, convert recalculates.
 
 ## Related
 
-`filters.md` · `interface-and-workflow.md` · `tools-overview.md` · `pdb-recipes-color-filters.md`
+[filters](filters.md) · [interface and workflow](interface-and-workflow.md) · [tools overview](tools-overview.md) · [pdb recipes color filters](pdb-recipes-color-filters.md)

@@ -15,7 +15,7 @@ Hide every layer except one: Shift-click that layer's eye symbol
 
 ## Attributes, alpha, and anchoring
 
-Transparency is stored in a layer's alpha channel; a background layer usually has none until you add one via **Layer > Transparency > Add an Alpha Channel**. Pasting (for example **Ctrl+V**) drops the clipboard in as a temporary floating layer (floating selection); **Layer > Anchor Floating Layer or Mask** (**Ctrl+H**) fixes it onto the previously active layer.
+Transparency is stored in a layer's alpha channel; a background layer usually has none until you add one via **Layer > Transparency > Add an Alpha Channel**. **Edit > Paste** (**Ctrl+V**) creates new layers in GIMP 3.2. Use **Edit > Paste as > Floating Data** when a temporary floating layer (floating selection) is wanted; **Layer > Anchor Floating Layer or Mask** (**Ctrl+H**) fixes it onto the previously active layer.
 
 ```text
 New layer:            Layer > New Layer…            (Shift+Ctrl+N)
@@ -56,4 +56,4 @@ TODO: the default (non-legacy) member names for the Lighten/Darken/Contrast/Inve
 
 ## Related
 
-`masks-and-channels.md` · `selections.md` · `interface-and-workflow.md` · `pdb-recipes-images-layers.md`
+[masks and channels](masks-and-channels.md) · [selections](selections.md) · [interface and workflow](interface-and-workflow.md) · [pdb recipes images layers](pdb-recipes-images-layers.md)

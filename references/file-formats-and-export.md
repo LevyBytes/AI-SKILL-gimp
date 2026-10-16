@@ -22,7 +22,7 @@ File > Save As…    (Shift+Ctrl+S — writes .xcf only)
 
 ## Exporting to other formats
 
-**File > Export As…** (**Shift+Ctrl+E**) opens the Export Image dialog to store the image in a format other than XCF. After that, the menu offers a shortcut: for an image that began as XCF the command reads "Export" (identical to Export As…), and for an imported image it reads "Overwrite filename.extension", which re-exports straight to the original format with no dialog. Exporting never alters the working image, so nothing is lost by doing it.
+**File > Export As…** (**Shift+Ctrl+E**) chooses a destination and format. Before a destination is established, **Export** can open that dialog too. After exporting, **Export to filename** repeats the export to the chosen destination. For an imported image, **Overwrite filename.extension** writes back to its source format. Exporting leaves the working image intact, but the exported file may lose layers, transparency, precision or metadata depending on its format and settings; save an XCF to preserve editable work.
 
 ```text
 File > Export As…    (Shift+Ctrl+E — opens the "Export Image" dialog)
@@ -51,4 +51,4 @@ TODO: TIFF, WebP, and PDF export option pages were not confirmed in the pages fe
 
 ## Related
 
-`interface-and-workflow.md` · `layers-and-modes.md` · `pdb-recipes-io-batch.md` · `scripting-overview.md`
+[interface and workflow](interface-and-workflow.md) · [layers and modes](layers-and-modes.md) · [pdb recipes io batch](pdb-recipes-io-batch.md) · [scripting overview](scripting-overview.md)

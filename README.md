@@ -1,50 +1,53 @@
-# GIMP 3.2 Skill
+# GIMP
 
-> _Task-routed, faithful GIMP 3.2 reference for editing and generating raster images and for automating GIMP through Script-Fu, Python-Fu, and the Procedural Database._
-
-Part of **[Agent Kaizen](https://github.com/DirectorGunner/agent-kaizen)** — Agent Kaizen is designed to support reliable AI agent workflows, context engineering, and AI systems engineering in VS Code, Codex, and Claude Code. Build reusable agent skills, reduce unnecessary context loading, add validation loops, and apply Spec → Verifier → Environment scaffolding to new and existing projects.
-
-This repository is the `gimp` skill: a reusable, trigger-rich task handbook that an AI coding agent (OpenAI Codex, Claude Code) loads on demand when a task matches its triggers.
-
-## What this skill covers
-
-This skill gives faithful, task-organized guidance for GIMP 3.2 (the GNU Image Manipulation Program): layers, blend/paint modes, masks, channels, selections (including feathering and saving to channels), and Bézier paths, plus tools, the Filters menu, and color work such as levels, curves, hue-saturation, and ICC profile assign-versus-convert. It covers opening, saving `.xcf`, and exporting PNG/JPEG, and emphasizes driving GIMP programmatically through Script-Fu, Python-Fu, the Script-Fu Console, and the Procedural Database (PDB) — including headless/batch (`gimp -i -b`) runs and a GIMP MCP server. Identifiers like menu paths, option labels, shortcuts, mode names, and `gimp-*` procedure names are preserved exactly as the manual prints them. It also flags the GIMP 3.x break from 2.10 — Python-Fu is now Python 3 plus GObject Introspection and many PDB procedures were renamed.
-
-## What's inside
-
-- `SKILL.md` — frontmatter (`name` + trigger-rich `description`) and a lean body.
-- `references/` — right-sized topic files the agent loads only when relevant (plus `INDEX.md` and `topics.json`).
-- `GOTCHA.md` — known pitfalls and edge cases.
-
-## Use it
-
-This skill is one git repo inside the Agent Kaizen **skills store**. The store nests two folders on purpose: the outer **`SKILLS\`** is a VS Code project for building and maintaining skills (its own workspace + tooling), and the inner lowercase **`skills\`** holds every skill as its own repo. That split lets a project pull skills two ways — the **whole `skills\` folder at once** (loads everything — **not recommended**) or **one skill at a time** (recommended: load only what a task needs and stay under Claude Code's skill-listing budget).
-
-Paths below use **`%DEVROOT%`** — the `DEVROOT` environment variable pointing at the folder that contains `SKILLS\`. Set it once by running **`SetDevRoot.cmd`** in the SKILLS repo root (no admin); a new shell then resolves `%DEVROOT%` automatically.
-
-Link **just this skill** (recommended) — a Windows directory junction, no admin:
-
-```cmd
-mklink /J .agents\skills\gimp  "%DEVROOT%\SKILLS\skills\gimp"
-mklink /J .claude\skills\gimp  "%DEVROOT%\SKILLS\skills\gimp"
+```mermaid
+---
+config:
+  flowchart:
+    wrappingWidth: 400
+---
+flowchart LR
+    brand["KAIZEN<br/>SKILL LIBRARY"]:::brand
+    skill("GIMP"):::skill
+    first(["Images + Layers"]):::topic
+    second(["Selections + Color"]):::topic
+    third(["Scripting"]):::accent
+    brand --- skill
+    skill --- first
+    skill --- second
+    skill --- third
+    classDef brand fill:#0f172a,color:#67e8f9,stroke:#22d3ee,stroke-width:2px,font-family:monospace
+    classDef skill fill:#172554,color:#eff6ff,stroke:#60a5fa,stroke-width:2px,font-size:20px
+    classDef topic fill:#0c4a6e,color:#bae6fd,stroke:#38bdf8,stroke-width:1px
+    classDef accent fill:#1e293b,color:#fcd34d,stroke:#f59e0b,stroke-width:1px
+    linkStyle default stroke:#38bdf8,stroke-width:1px
 ```
 
-Or link the **whole store** at once (loads every skill — not recommended outside a skills-dev project):
+GIMP 3.2 references for image editing and scripted workflows. Editing concepts, tools and file handling sit alongside Script-Fu, Python-Fu and procedural database guidance, helping an agent connect a visual task with the relevant controls or API calls.
 
-```cmd
-mklink /J .agents\skills  "%DEVROOT%\SKILLS\skills"
-mklink /J .claude\skills  "%DEVROOT%\SKILLS\skills"
-```
+Use for GIMP 3.2 raster editing and generation; layers, blend modes, masks, channels, selections and Bezier paths; tools, filters, colors, levels, curves and ICC profiles; XCF, PNG and JPEG import/export; or Script-Fu, Python-Fu, Script-Fu Console and PDB automation, including GIMP MCP and headless/batch runs. Also use for .xcf files, gimp-* procedures, script-fu-register, gi.repository.Gimp and GObject-Introspection plug-ins without an explicit GIMP mention.
 
-Remove a link (the store copy is untouched):
+## What this skill helps with
 
-```cmd
-rmdir .agents\skills\gimp
-rmdir .claude\skills\gimp
-```
+| Task | Useful reference material |
+| --- | --- |
+| [Choose editing tools](references/tools-overview.md) | Find the tools and interaction patterns relevant to a raster-editing task. |
+| [Build layered images](references/layers-and-modes.md) | Work with layers and blend modes, with linked selection, mask and channel guidance. |
+| [Adjust color and tone](references/colors-and-adjustments.md) | Look up adjustments and color-management concepts before applying changes. |
+| [Automate repeatable work](references/scripting-overview.md) | Select Script-Fu or Python-Fu guidance and follow linked PDB references and recipes. |
 
-The agent (OpenAI Codex, Claude Code) then auto-loads this skill whenever a task matches its triggers. Built and validated with **[skill-drafting](https://github.com/DirectorGunner/AI-skill-drafting)** to the Agent Kaizen gold standard.
+## The work behind the references
 
-## License
+Manual and scripting material is reorganized around editing tasks and API use. Separate recipe references keep image/layer operations, selections, color processing and batch file handling together without burying their prerequisites in a single long document.
 
-Licensed under **AGPL-3.0**, matching the [Agent Kaizen](https://github.com/DirectorGunner/agent-kaizen) project.
+## Start here
+
+Start with [SKILL.md](SKILL.md) and follow its context routes.
+
+Match examples to the installed GIMP version and its available procedures. The package supplies reference guidance; executing an edit or script requires a GIMP installation or a separately configured integration.
+
+## Sources and license
+
+Skill reference documentation is interpreted content for use in open source projects. Check against [official documentation sources](https://docs.gimp.org/) when dealing with defects or issues that may come up from interpreting this skill's references.
+
+Licensed under **AGPL-3.0**; see [LICENSE](LICENSE). Part of the [Agent Kaizen](https://github.com/LevyBytes/agent-kaizen) skill library.
