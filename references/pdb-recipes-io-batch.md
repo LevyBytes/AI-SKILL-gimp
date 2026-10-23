@@ -8,64 +8,26 @@ In GIMP 3's Python API, `Gimp.file_load(run_mode, file)` takes a `Gio.File` and 
 
 Script-Fu binds file arguments to filename strings. Its return wrapping depends on the [selected dialect](script-fu.md#pdb-binding-dialects). Do not copy a C `NULL` token or a `Gio.File` object into Scheme code.
 
-## Complete PNG-to-JPEG example
+## Convert an image to JPEG
 
-Save this block as `convert.py` beside an existing `input.png`. It requires GIMP 3's connected Python environment and installed PNG/JPEG handlers. `output.jpg` must not already exist. The loaded image is private to this job: flattening discards its layer structure and composites transparency against white, while the source file is untouched.
-
-```python
-from pathlib import Path
-import gi
-
-gi.require_version("Gimp", "3.0")
-gi.require_version("Gegl", "0.4")
-from gi.repository import Gimp, Gegl, Gio
-
-
-def convert_png_to_jpeg(source_name, target_name):
-    source = Path(source_name).resolve(strict=True)
-    target = Path(target_name).resolve()
-    if source == target or target.exists():
-        raise FileExistsError(f"Destination must be new: {target}")
-    Gegl.init(None)
-    image = Gimp.file_load(
-        Gimp.RunMode.NONINTERACTIVE, Gio.File.new_for_path(str(source))
-    )
-    if image is None:
-        raise RuntimeError("GIMP could not load the source")
-    try:
-        Gimp.context_push()
-        try:
-            if not Gimp.context_set_background(Gegl.Color.new("white")):
-                raise RuntimeError("GIMP could not set the background")
-            if image.flatten() is None:
-                raise RuntimeError("GIMP could not flatten the image")
-        finally:
-            Gimp.context_pop()
-        saved = Gimp.file_save(
-            Gimp.RunMode.NONINTERACTIVE,
-            image,
-            Gio.File.new_for_path(str(target)),
-            None,
-        )
-        if not saved:
-            raise RuntimeError("GIMP could not export the image")
-    finally:
-        image.delete()
-
-
-convert_png_to_jpeg("input.png", "output.jpg")
-```
-
-The existing-file check assumes one writer; it is not an atomic filesystem reservation. A failed exporter may leave a partial destination, so inspect it before retrying. For explicit JPEG quality or metadata choices, inspect the installed JPEG export procedure and set its config rather than assuming generic save defaults.
-
-## Run the batch
-
-From the directory containing those files, use the installed console executable. This is POSIX-shell syntax; on Windows use the installed executable path and equivalent shell quoting. The GIMP Python batch plug-in must be available.
+Run [`scripts/convert_to_jpeg.py`](../scripts/convert_to_jpeg.py) when one image must become a new JPEG without opening GIMP. Launch it with Python 3.8 or later from the skill root; it starts `gimp-console-3.2` as a separate instance and does the work inside GIMP's Python batch interpreter:
 
 ```bash
-gimp-console-3.0 --new-instance --no-interface --quit \
+python scripts/convert_to_jpeg.py input.png output.jpg
+```
+
+The script loads the source with `Gimp.file_load`, pushes a context with a white background, flattens the image, exports it with `Gimp.file_save` and deletes the in-memory image. Flattening discards the layer structure and composites transparency against white; the source file is never modified. An existing target is refused, so repeating a run changes nothing. It prints one JSON object: `status`, `source`, `target` and `bytes` on success, or `error`, `expected`, `try` and the last GIMP log lines with exit status 1. Pass `--gimp-console` or set `GIMP_CONSOLE` when `gimp-console-3.2` is not on `PATH`.
+
+The existing-target check assumes one writer; it is not an atomic filesystem reservation. A failed export may leave a partial destination, so inspect or remove it before retrying. The script uses the JPEG exporter's default settings; for explicit quality or metadata, inspect the installed JPEG export procedure and set its config.
+
+## Run a custom batch job
+
+Other Python batch work runs the same way: save it as a file and pass it to the console's Python batch interpreter. This is POSIX-shell syntax; on Windows use the installed executable path and equivalent quoting. The GIMP Python batch plug-in must be available.
+
+```bash
+gimp-console-3.2 --new-instance --no-interface --quit \
   --batch-interpreter=python-fu-eval \
-  --batch='exec(open("convert.py", encoding="utf-8").read())'
+  --batch='exec(open("job.py", encoding="utf-8").read())'
 ```
 
 `--new-instance` creates a separate process; `--quit` closes it after the requested work. Do not use a forced PDB quit against an interactive instance. `--batch=-` reads commands from stdin. Avoid `--no-data`/`--no-fonts` for jobs that require those resources. Check the process exit status and exported file; successfully parsing the Python is not proof that a GIMP exporter ran.

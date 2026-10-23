@@ -35,6 +35,7 @@ Use for GIMP 3.2 raster editing and generation; layers, blend modes, masks, chan
 | [Build layered images](references/layers-and-modes.md) | Work with layers and blend modes, with linked selection, mask and channel guidance. |
 | [Adjust color and tone](references/colors-and-adjustments.md) | Look up adjustments and color-management concepts before applying changes. |
 | [Automate repeatable work](references/scripting-overview.md) | Select Script-Fu or Python-Fu guidance and follow linked PDB references and recipes. |
+| [Convert images to JPEG](scripts/convert_to_jpeg.py) | Run the bundled script that flattens one image onto white and exports a new JPEG through a headless GIMP 3.2. |
 
 ## The work behind the references
 
@@ -50,4 +51,4 @@ Match examples to the installed GIMP version and its available procedures. The p
 
 Skill reference documentation is interpreted content for use in open source projects. Check against [official documentation sources](https://docs.gimp.org/) when dealing with defects or issues that may come up from interpreting this skill's references.
 
-Licensed under **AGPL-3.0**; see [LICENSE](LICENSE). Part of the [Agent Kaizen](https://github.com/LevyBytes/agent-kaizen) skill library.
+Licensed under **Apache-2.0**; see [LICENSE](LICENSE). Part of the [Agent Kaizen](https://github.com/LevyBytes/agent-kaizen) skill library.

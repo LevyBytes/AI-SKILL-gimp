@@ -46,7 +46,7 @@ Use enum value equality when checking the status. Do not add `run-mode` to an in
 
 ## Keep the API surfaces distinct
 
-- `Gimp.file_save(run_mode, image, file, options)` saves/exports the whole image. `file` is a `Gio.File`; currently `options` must be `None`. Use the complete [batch recipe](pdb-recipes-io-batch.md).
+- `Gimp.file_save(run_mode, image, file, options)` saves/exports the whole image. `file` is a `Gio.File`; currently `options` must be `None`. The bundled [`scripts/convert_to_jpeg.py`](../scripts/convert_to_jpeg.py) uses it to export a flattened JPEG; [File I/O and batch](pdb-recipes-io-batch.md) explains the script.
 - The PDB procedure `gimp-quit` takes a force boolean and requests termination of the main application. In contrast, libgimp's `Gimp.quit()`/`gimp_quit(void)` terminates a plug-in's connection and is deprecated; plug-ins should return normally. For an isolated batch invocation, use the executable's `--quit` option.
 - GIMP 3 procedures such as `gimp-drawable-brightness-contrast` differ from 2.10 names. Check the actual browser signature before porting an example.
 

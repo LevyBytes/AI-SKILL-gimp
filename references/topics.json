@@ -84,8 +84,8 @@
     {
       "topic": "PDB Recipes: File I/O and Batch",
       "file": "references/pdb-recipes-io-batch.md",
-      "summary": "Open when automating file save or export, flattening before export, or running headless batch processing.",
-      "keywords": ["recipe", "export", "batch", "headless", "no-interface", "batch-interpreter", "gimp-image-flatten", "xcf"]},
+      "summary": "Open when converting an image to JPEG with the bundled script, automating file save or export, flattening before export, or running headless batch processing.",
+      "keywords": ["recipe", "export", "batch", "headless", "no-interface", "batch-interpreter", "gimp-image-flatten", "xcf", "jpeg", "convert_to_jpeg"]},
     {
       "topic": "Reference Language Selection",
       "file": "references/languages.md",

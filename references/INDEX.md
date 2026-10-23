@@ -21,5 +21,5 @@ Choose the GIMP editing or automation task.
 | PDB Recipes: Images and Layers | Open when automating image or layer creation, filling, resizing, movement, or flattening. | [PDB Recipes: Images and Layers](pdb-recipes-images-layers.md) |
 | PDB Recipes: Selections and Paths | Open when automating selections or paths with Procedure Browser-verified PDB names. | [PDB Recipes: Selections and Paths](pdb-recipes-selections-paths.md) |
 | PDB Recipes: Colors and Filters | Open when automating color adjustments or filters with Procedure Browser-verified PDB names. | [PDB Recipes: Colors and Filters](pdb-recipes-color-filters.md) |
-| PDB Recipes: File I/O and Batch | Open when automating file save or export, flattening before export, or running headless batch processing. | [PDB Recipes: File I/O and Batch](pdb-recipes-io-batch.md) |
+| PDB Recipes: File I/O and Batch | Open when converting an image to JPEG with the bundled script, automating file save or export, flattening before export, or running headless batch processing. | [PDB Recipes: File I/O and Batch](pdb-recipes-io-batch.md) |
 | Reference Language Selection | Open when you need a language version of this skill's references other than English. | [Reference Language Selection](languages.md) |

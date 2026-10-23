@@ -1,8 +1,10 @@
 ---
 name: gimp
 description: "Use for GIMP 3.2 raster editing and generation; layers, blend modes, masks, channels, selections and Bezier paths; tools, filters, colors, levels, curves and ICC profiles; XCF, PNG and JPEG import/export; or Script-Fu, Python-Fu, Script-Fu Console and PDB automation, including GIMP MCP and headless/batch runs. Also use for .xcf files, gimp-* procedures, script-fu-register, gi.repository.Gimp and GObject-Introspection plug-ins without an explicit GIMP mention."
+license: Apache-2.0
+compatibility: "GIMP 3.2 with its Python 3 plug-ins (gimp-console-3.2), and Python 3.8 or later to launch scripts/convert_to_jpeg.py."
 metadata:
-  last-updated: "2026-10-09"
+  last-updated: "2026-10-22"
 ---
 
 # Context Router
@@ -27,7 +29,7 @@ Choose the relevant GIMP operation below.
 | PDB Recipes: Images and Layers | Open when automating image or layer creation, filling, resizing, movement, or flattening. | [PDB Recipes: Images and Layers](references/pdb-recipes-images-layers.md) |
 | PDB Recipes: Selections and Paths | Open when automating selections or paths with Procedure Browser-verified PDB names. | [PDB Recipes: Selections and Paths](references/pdb-recipes-selections-paths.md) |
 | PDB Recipes: Colors and Filters | Open when automating color adjustments or filters with Procedure Browser-verified PDB names. | [PDB Recipes: Colors and Filters](references/pdb-recipes-color-filters.md) |
-| PDB Recipes: File I/O and Batch | Open when automating file save or export, flattening before export, or running headless batch processing. | [PDB Recipes: File I/O and Batch](references/pdb-recipes-io-batch.md) |
+| PDB Recipes: File I/O and Batch | Open when converting an image to JPEG with the bundled script, automating file save or export, flattening before export, or running headless batch processing. | [PDB Recipes: File I/O and Batch](references/pdb-recipes-io-batch.md) |
 
 # Language Translations
 

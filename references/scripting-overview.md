@@ -30,17 +30,17 @@ Standalone Script-Fu uses `gimp-script-fu-interpreter-3.0`, including with GIMP 
 
 ## Batch execution
 
-Choose the installed executable; `gimp-console-3.0` is the console build where provided. On Windows supply its installed executable path using the invoking shell's quoting rules. This POSIX-shell example requires the Script-Fu batch interpreter:
+Choose the installed executable. A GIMP 3.2 build that includes the console binary installs it as `gimp-console-3.2`, named for the application version, with `gimp-console` and `gimp-console-3` as aliases. On Windows supply its installed executable path using the invoking shell's quoting rules. This POSIX-shell example requires the Script-Fu batch interpreter:
 
 ```bash
-gimp-console-3.0 --new-instance --no-interface --quit \
+gimp-console-3.2 --new-instance --no-interface --quit \
   --batch-interpreter=plug-in-script-fu-eval \
   --batch='(gimp-message "Batch ready")'
 ```
 
 `--new-instance` isolates the batch from an already running interactive session. `--quit` exits that instance after processing. Specify `--batch-interpreter` rather than depending on an installation's default. `--batch=-` reads commands from standard input. `--no-data` and `--no-fonts` skip resources; use them only when the job does not need those resources.
 
-For a complete load/flatten/export example and cleanup, open [File I/O and batch](pdb-recipes-io-batch.md). Check the actual installed GIMP version, procedures and dependencies before running automation; syntax checks alone do not establish native execution.
+To convert one image to JPEG, run the bundled [`scripts/convert_to_jpeg.py`](../scripts/convert_to_jpeg.py); [File I/O and batch](pdb-recipes-io-batch.md) describes it and shows how to pass a Python job file to the batch interpreter. Check the actual installed GIMP version, procedures and dependencies before running automation; syntax checks alone do not establish native execution.
 
 ## Related
 
